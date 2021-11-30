@@ -15,7 +15,7 @@ public interface DirectedWeightedGraph {
 	 * @param key - the node_id
 	 * @return the node_data by the node_id, null if none.
 	 */
-	public NodeData getNode(int key);
+	public NodeData getNode(int key); // possible way is hashmap
 	/**
 	 * returns the data of the edge (src,dest), null if none.
 	 * Note: this method should run in O(1) time.
