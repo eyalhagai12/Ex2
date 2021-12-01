@@ -1,21 +1,46 @@
 package api;
 
-public class Edge implements EdgeData{
+public class Edge implements EdgeData {
     private int src;
     private int dest;
     private double w;
+    private int id;
 
     /**
      * Create a new edge given a source, a destination and a weight
      *
-     * @param src The source node index
-     * @param dst The destination node index
+     * @param src    The source node index
+     * @param dst    The destination node index
      * @param weight The weight of the edge
      */
-    public Edge(int src, int dst, double weight){
+    public Edge(int src, int dst, double weight) {
         this.src = src;
         this.dest = dst;
         this.w = weight;
+    }
+
+    public void setSrc(int src) {
+        this.src = src;
+    }
+
+    public void setDest(int dest) {
+        this.dest = dest;
+    }
+
+    public void setW(double w) {
+        this.w = w;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getW() {
+        return w;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

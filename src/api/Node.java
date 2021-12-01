@@ -1,15 +1,23 @@
 package api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Node implements NodeData {
     private final int id;
-    private GeoLocation location;
+    private GeoPoint location;
     private double weight;
-    private final List<EdgeData> out_edges;
+    private HashMap<Integer, Edge> out_edges;
     private String pos;
     private int tag;
+
+    /**
+     * Empty constructor
+     */
+    public Node() {
+        id = 0;
+    }
 
     /**
      * Create a new node from an id and a location
@@ -17,11 +25,18 @@ public class Node implements NodeData {
      * @param id       The id of the node
      * @param location The coordinates of the node
      */
-    public Node(int id, GeoLocation location) {
+    public Node(int id, GeoPoint location) {
         this.id = id;
         this.location = location;
-        out_edges = new ArrayList<>();
+        out_edges = new HashMap<>();
         tag = 0;
+    }
+
+    /**
+     * Init the list (the use of GSON doesnt use the constructor, so manual init is needed)
+     */
+    public void initEdges() {
+        this.out_edges = new HashMap<>();
     }
 
     /**
@@ -46,7 +61,45 @@ public class Node implements NodeData {
      * @param edge The new edge to add to the list
      */
     public void addEdge(EdgeData edge) {
-        out_edges.add(edge);
+        out_edges.put(edge.getDest(), (Edge) edge);
+    }
+
+    /**
+     * Get the edge going to the dest node
+     *
+     * @param dest The index of the node we want to go to
+     * @return An edge object if it exists, else it returns null
+     */
+    public Edge getEdgeTo(int dest) {
+        if (!out_edges.containsKey(dest)){
+            return null;
+        }
+        return out_edges.get(dest);
+    }
+
+    /**
+     * Delete the edge going to a given index
+     *
+     * @param dest The index of this nodes destination
+     */
+    public void deleteEdgeTo(int dest) {
+        out_edges.remove(dest);
+    }
+
+    public HashMap<Integer, Edge> getOut_edges() {
+        return out_edges;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
+
+    public String getPos() {
+        return pos;
+    }
+
+    public int outSize(){
+        return out_edges.size();
     }
 
     @Override
@@ -55,13 +108,13 @@ public class Node implements NodeData {
     }
 
     @Override
-    public GeoLocation getLocation() {
+    public GeoPoint getLocation() {
         return location;
     }
 
     @Override
     public void setLocation(GeoLocation p) {
-        this.location = p;
+        this.location = (GeoPoint) p;
     }
 
     @Override
