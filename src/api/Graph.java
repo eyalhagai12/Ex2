@@ -1,8 +1,5 @@
 package api;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -10,38 +7,25 @@ import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
 
-    HashMap<Integer, NodeData> nodes;
-
-    public Graph(String path) {
-        try {
-            JSONArray[] data = jsonParser.parseJson(path);
-            createNodes(data[0]);
-            System.out.println("Done");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private Node[] nodes;
+    private Edge[] edges;
 
     /**
-     * Iterate over the nodes json array
+     * Create a new graph from a given file
      *
-     * @param nodes The JSONArray object on which we iterate
+     * @param path Path to the file
      */
-    private void createNodes(JSONArray nodes) {
-        while (nodes.iterator().hasNext()) {
-            HashMap<String, String> map = (HashMap<String, String>) nodes.iterator().next();
-            int id = Integer.parseInt(map.get("id"));
+    public Graph(String path) {
+        // create a json parser to parse the json file
+        jsonParser parser = new jsonParser(path);
 
-            String loc_str = map.get("pos");
-            String[] split = loc_str.split(",");
+        // extract the arrays of nodes and edges
+        nodes = (Node[]) parser.getNodes();
+        edges = (Edge[]) parser.getEdges();
 
-            int x = Integer.parseInt(split[0]);
-            int y = Integer.parseInt(split[1]);
-            int z = Integer.parseInt(split[2]);
-            GeoPoint point = new GeoPoint(x, y, z);
-
-            Node newNode = new Node(id, point);
-            this.nodes.put(id, newNode);
+        // for the nodes array we need to translate the pos string to a GeoLocation object (in our case a GeoPoint)
+        for (Node n : nodes){
+            n.parsePosition();
         }
     }
 

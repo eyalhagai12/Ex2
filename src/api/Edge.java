@@ -2,8 +2,8 @@ package api;
 
 public class Edge implements EdgeData{
     private int src;
-    private int dst;
-    private double weight;
+    private int dest;
+    private double w;
 
     /**
      * Create a new edge given a source, a destination and a weight
@@ -14,8 +14,8 @@ public class Edge implements EdgeData{
      */
     public Edge(int src, int dst, double weight){
         this.src = src;
-        this.dst = dst;
-        this.weight = weight;
+        this.dest = dst;
+        this.w = weight;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class Edge implements EdgeData{
 
     @Override
     public int getDest() {
-        return dst;
+        return dest;
     }
 
     @Override
     public double getWeight() {
-        return weight;
+        return w;
     }
 
     @Override

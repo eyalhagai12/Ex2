@@ -9,6 +9,7 @@ public class Ex2 {
 
     public static void main(String[] args) {
         Graph g = new Graph("data/G1.json");
+        System.out.println("Done!");
     }
 
     /**
