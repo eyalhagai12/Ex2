@@ -1,11 +1,11 @@
 package api;
 
 public class GeoPoint implements GeoLocation {
-    private final int x;
-    private final int y;
-    private final int z;
+    private final double x;
+    private final double y;
+    private final double z;
 
-    public GeoPoint(int x, int y, int z){
+    public GeoPoint(double x, double y, double z){
         this.x = x;
         this.y = y;
         this.z = z;

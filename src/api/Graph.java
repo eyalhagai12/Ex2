@@ -1,68 +1,96 @@
 package api;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
 
-    HashMap<Integer, NodeData> nodes;
-
-    public Graph(String path) {
-        try {
-            JSONArray[] data = jsonParser.parseJson(path);
-            createNodes(data[0]);
-            System.out.println("Done");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private final HashMap<Integer, Node> nodes;
+    private final HashMap<Integer, Edge> edges;
 
     /**
-     * Iterate over the nodes json array
+     * Create a new graph from a given file
      *
-     * @param nodes The JSONArray object on which we iterate
+     * @param path Path to the file
      */
-    private void createNodes(JSONArray nodes) {
-        while (nodes.iterator().hasNext()) {
-            HashMap<String, String> map = (HashMap<String, String>) nodes.iterator().next();
-            int id = Integer.parseInt(map.get("id"));
+    public Graph(String path) {
+        // init maps
+        nodes = new HashMap<>();
+        edges = new HashMap<>();
 
-            String loc_str = map.get("pos");
-            String[] split = loc_str.split(",");
+        // create a json parser to parse the json file
+        jsonParser parser = new jsonParser(path);
 
-            int x = Integer.parseInt(split[0]);
-            int y = Integer.parseInt(split[1]);
-            int z = Integer.parseInt(split[2]);
-            GeoPoint point = new GeoPoint(x, y, z);
+        // extract the arrays of nodes and edges
+        Node[] nodes_arr = (Node[]) parser.getNodes();
+        Edge[] edges_arr = (Edge[]) parser.getEdges();
 
-            Node newNode = new Node(id, point);
-            this.nodes.put(id, newNode);
+        // add ids to the edges
+        for(int i = 0; i < edges_arr.length; ++i){
+            edges_arr[i].setId(i);
+            edges.put(i, edges_arr[i]);
         }
+
+        // for the nodes_arr array we need to translate the pos string to a GeoLocation object (in our case a GeoPoint)
+        // and add it to the nodes map
+        for (Node n : nodes_arr) {
+            // init the nodes edges collection
+            n.initEdges();
+
+            // parse the position of the node
+            n.parsePosition();
+
+            // add the edges going out of this node to the node
+            for (Edge e : edges_arr) {
+                if (e.getSrc() == n.getKey()) {
+                    n.addEdge(e);
+                }
+            }
+
+            // add to the collection of nodes
+            nodes.put(n.getKey(), n);
+        }
+
     }
 
     @Override
     public NodeData getNode(int key) {
-        return null;
+        return nodes.get(key);
     }
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        return null;
+        if (nodes.get(src) == null){
+            return null;
+        }
+        return nodes.get(src).getEdgeTo(dest);
     }
 
     @Override
     public void addNode(NodeData n) {
-
+        if (nodes.containsKey(n.getKey())) {
+            System.out.println("Key " + n.getKey() + " already exists");
+        } else {
+            nodes.put(n.getKey(), (Node)n);
+        }
     }
 
     @Override
     public void connect(int src, int dest, double w) {
+        // create a new edge
+        Edge edge = new Edge(src, dest, w);
 
+        // give new edge an id
+        edge.setId(edges.size());
+
+        // add te new edge to the edges map
+        edges.put(edges.size(), edge);
+
+        // add to the node from which this edge is going out
+        nodes.get(src).addEdge(edge);
     }
 
     @Override
@@ -82,22 +110,42 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public NodeData removeNode(int key) {
-        return null;
+        // get node
+        Node node = nodes.get(key);
+
+        // delete all edges that go out from that node
+        for (Edge e : node.getOut_edges().values()){
+            edges.remove(e.getId());
+        }
+
+        // remove node from map
+        nodes.remove(key);
+
+        return node;
     }
 
     @Override
     public EdgeData removeEdge(int src, int dest) {
-        return null;
+        // get the edge
+        Edge edge = nodes.get(src).getEdgeTo(dest);
+
+        // remove from edges map
+        edges.remove(edge.getId());
+
+        // delete edge in the source node
+        nodes.get(src).deleteEdgeTo(dest);
+
+        return edge;
     }
 
     @Override
     public int nodeSize() {
-        return 0;
+        return nodes.size();
     }
 
     @Override
     public int edgeSize() {
-        return 0;
+        return edges.size();
     }
 
     @Override
