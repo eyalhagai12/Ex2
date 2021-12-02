@@ -81,7 +81,7 @@ class GraphTest {
         Node rem = (Node) g.removeNode(3);
 
         assert (g.nodeSize() == nodeSize - 1);
-        assert (g.edgeSize() == edgeSize - rem.outSize());
+        assert (g.edgeSize() == edgeSize - (rem.outSize() + rem.inSize()));
     }
 
     @org.junit.jupiter.api.Test

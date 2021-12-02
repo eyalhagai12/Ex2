@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
-
     private final HashMap<Integer, NodeData> nodes;
     private final HashMap<Integer, EdgeData> edges;
 
@@ -43,7 +42,7 @@ public class Graph implements DirectedWeightedGraph {
             // add the edges going out of this node to the node
             for (Edge e : edges_arr) {
                 if (e.getSrc() == n.getKey()) {
-                    n.addEdge(e);
+                    n.addEdgeSrc(e);
                 }
             }
 
@@ -86,8 +85,9 @@ public class Graph implements DirectedWeightedGraph {
         // add te new edge to the edges map
         edges.put(edges.size(), edge);
 
-        // add to the node from which this edge is going out
-        ((Node) nodes.get(src)).addEdge(edge);
+        // add to the relevant nodes
+        ((Node) nodes.get(src)).addEdgeSrc(edge);
+        ((Node) nodes.get(dest)).addEdgeDst(edge);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
-        return ((Node)nodes.get(node_id)).getOut_edges().values().iterator();
+        return ((Node) nodes.get(node_id)).getOut_edges().values().iterator();
     }
 
     @Override
@@ -112,7 +112,14 @@ public class Graph implements DirectedWeightedGraph {
 
         // delete all edges that go out from that node
         for (EdgeData e : node.getOut_edges().values()) {
-            edges.remove(((Edge)e).getId());
+            edges.remove(((Edge) e).getId());
+        }
+
+        // delete all nodes coming in
+        for (EdgeData e : ((Node) node).getIn_edges().values()) {
+            edges.remove(((Edge) e).getId());
+            Node fromNode = (Node) getNode(e.getSrc());
+            fromNode.deleteEdgeTo(key);
         }
 
         // remove node from map
@@ -124,10 +131,10 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public EdgeData removeEdge(int src, int dest) {
         // get the edge
-        Edge edge = ((Node) nodes.get(src)).getEdgeTo(dest);
+        EdgeData edge = ((Node) nodes.get(src)).getEdgeTo(dest);
 
         // remove from edges map
-        edges.remove(edge.getId());
+        edges.remove(((Edge) edge).getId());
 
         // delete edge in the source node
         ((Node) nodes.get(src)).deleteEdgeTo(dest);

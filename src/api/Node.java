@@ -10,6 +10,7 @@ public class Node implements NodeData {
     private GeoPoint location;
     private double weight;
     private HashMap<Integer, EdgeData> out_edges;
+    private HashMap<Integer, EdgeData> in_edges;
     private String pos;
     private int tag;
 
@@ -30,14 +31,16 @@ public class Node implements NodeData {
         this.id = id;
         this.location = location;
         out_edges = new HashMap<>();
+        in_edges = new HashMap<>();
         tag = 0;
     }
 
     /**
-     * Init the list (the use of GSON doesnt use the constructor, so manual init is needed)
+     * Init the list (the use of GSON doesn't use the constructor, so manual init is needed)
      */
     public void initEdges() {
         this.out_edges = new HashMap<>();
+        this.in_edges = new HashMap<>();
     }
 
     /**
@@ -57,12 +60,21 @@ public class Node implements NodeData {
     }
 
     /**
-     * Add an edge to the list
+     * Add an edge to the map
      *
-     * @param edge The new edge to add to the list
+     * @param edge The new edge to add to the map
      */
-    public void addEdge(EdgeData edge) {
+    public void addEdgeSrc(EdgeData edge) {
         out_edges.put(edge.getDest(), (Edge) edge);
+    }
+
+    /**
+     * Add an edge to the map
+     *
+     * @param edge The new edge to add to the map
+     */
+    public void addEdgeDst(EdgeData edge) {
+        in_edges.put(edge.getSrc(), (Edge) edge);
     }
 
     /**
@@ -71,8 +83,8 @@ public class Node implements NodeData {
      * @param dest The index of the node we want to go to
      * @return An edge object if it exists, else it returns null
      */
-    public Edge getEdgeTo(int dest) {
-        if (!out_edges.containsKey(dest)){
+    public EdgeData getEdgeTo(int dest) {
+        if (!out_edges.containsKey(dest)) {
             return null;
         }
         return (Edge) out_edges.get(dest);
@@ -87,7 +99,20 @@ public class Node implements NodeData {
         out_edges.remove(dest);
     }
 
+    /**
+     * Delete the edge coming from a given index
+     *
+     * @param src The index of the source
+     */
+    public void deleteEdgeFrom(int src) {
+        in_edges.remove(src);
+    }
+
     public HashMap<Integer, EdgeData> getOut_edges() {
+        return out_edges;
+    }
+
+    public HashMap<Integer, EdgeData> getIn_edges() {
         return out_edges;
     }
 
@@ -99,8 +124,12 @@ public class Node implements NodeData {
         return pos;
     }
 
-    public int outSize(){
+    public int outSize() {
         return out_edges.size();
+    }
+
+    public int inSize() {
+        return in_edges.size();
     }
 
     @Override
