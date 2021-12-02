@@ -1,6 +1,6 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.Graph;
+import api.*;
+
+import java.util.LinkedList;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -8,7 +8,11 @@ import api.Graph;
 public class Ex2 {
 
     public static void main(String[] args) {
-        Graph g = new Graph("data/G1.json");
+        Graph g = new Graph("data/G2.json");
+        GraphAlgo ga = new GraphAlgo();
+        ga.init(g);
+        int time = ga.DFS(g);
+        LinkedList<NodeData> list = ga.TopologicalSort(g);
         System.out.println("Done!");
     }
 

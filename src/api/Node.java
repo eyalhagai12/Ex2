@@ -13,6 +13,7 @@ public class Node implements NodeData {
     private HashMap<Integer, EdgeData> in_edges;
     private String pos;
     private int tag;
+    private int finishTime;
 
     /**
      * Empty constructor
@@ -33,6 +34,7 @@ public class Node implements NodeData {
         out_edges = new HashMap<>();
         in_edges = new HashMap<>();
         tag = 0;
+        finishTime = 0;
     }
 
     /**
@@ -108,6 +110,14 @@ public class Node implements NodeData {
         in_edges.remove(src);
     }
 
+    public int getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(int finishTime) {
+        this.finishTime = finishTime;
+    }
+
     public HashMap<Integer, EdgeData> getOut_edges() {
         return out_edges;
     }
@@ -169,11 +179,11 @@ public class Node implements NodeData {
 
     @Override
     public int getTag() {
-        return 0;
+        return this.tag;
     }
 
     @Override
     public void setTag(int t) {
-
+        this.tag = t;
     }
 }

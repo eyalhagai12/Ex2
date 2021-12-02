@@ -52,6 +52,18 @@ public class Graph implements DirectedWeightedGraph {
 
     }
 
+    /**
+     * A duplicating constructor
+     *
+     * @param g The graph to duplicate
+     */
+    public Graph(DirectedWeightedGraph g) {
+        Graph graph = (Graph) g;
+
+        this.nodes = (HashMap<Integer, NodeData>) graph.nodes.clone();
+        this.edges = (HashMap<Integer, EdgeData>) graph.edges.clone();
+    }
+
     @Override
     public NodeData getNode(int key) {
         return nodes.get(key);
