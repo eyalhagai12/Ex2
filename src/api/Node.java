@@ -2,13 +2,14 @@ package api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class Node implements NodeData {
     private final int id;
     private GeoPoint location;
     private double weight;
-    private HashMap<Integer, Edge> out_edges;
+    private HashMap<Integer, EdgeData> out_edges;
     private String pos;
     private int tag;
 
@@ -74,7 +75,7 @@ public class Node implements NodeData {
         if (!out_edges.containsKey(dest)){
             return null;
         }
-        return out_edges.get(dest);
+        return (Edge) out_edges.get(dest);
     }
 
     /**
@@ -86,7 +87,7 @@ public class Node implements NodeData {
         out_edges.remove(dest);
     }
 
-    public HashMap<Integer, Edge> getOut_edges() {
+    public HashMap<Integer, EdgeData> getOut_edges() {
         return out_edges;
     }
 

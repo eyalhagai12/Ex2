@@ -1,15 +1,12 @@
 package api;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
 
-    private final HashMap<Integer, Node> nodes;
-    private final HashMap<Integer, Edge> edges;
+    private final HashMap<Integer, NodeData> nodes;
+    private final HashMap<Integer, EdgeData> edges;
 
     /**
      * Create a new graph from a given file
@@ -29,7 +26,7 @@ public class Graph implements DirectedWeightedGraph {
         Edge[] edges_arr = (Edge[]) parser.getEdges();
 
         // add ids to the edges
-        for(int i = 0; i < edges_arr.length; ++i){
+        for (int i = 0; i < edges_arr.length; ++i) {
             edges_arr[i].setId(i);
             edges.put(i, edges_arr[i]);
         }
@@ -63,10 +60,10 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        if (nodes.get(src) == null){
+        if (nodes.get(src) == null) {
             return null;
         }
-        return nodes.get(src).getEdgeTo(dest);
+        return ((Node) nodes.get(src)).getEdgeTo(dest);
     }
 
     @Override
@@ -74,7 +71,7 @@ public class Graph implements DirectedWeightedGraph {
         if (nodes.containsKey(n.getKey())) {
             System.out.println("Key " + n.getKey() + " already exists");
         } else {
-            nodes.put(n.getKey(), (Node)n);
+            nodes.put(n.getKey(), n);
         }
     }
 
@@ -90,32 +87,32 @@ public class Graph implements DirectedWeightedGraph {
         edges.put(edges.size(), edge);
 
         // add to the node from which this edge is going out
-        nodes.get(src).addEdge(edge);
+        ((Node) nodes.get(src)).addEdge(edge);
     }
 
     @Override
     public Iterator<NodeData> nodeIter() {
-        return null;
+        return nodes.values().iterator();
     }
 
     @Override
     public Iterator<EdgeData> edgeIter() {
-        return null;
+        return edges.values().iterator();
     }
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
-        return null;
+        return ((Node)nodes.get(node_id)).getOut_edges().values().iterator();
     }
 
     @Override
     public NodeData removeNode(int key) {
         // get node
-        Node node = nodes.get(key);
+        Node node = (Node) nodes.get(key);
 
         // delete all edges that go out from that node
-        for (Edge e : node.getOut_edges().values()){
-            edges.remove(e.getId());
+        for (EdgeData e : node.getOut_edges().values()) {
+            edges.remove(((Edge)e).getId());
         }
 
         // remove node from map
@@ -127,13 +124,13 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public EdgeData removeEdge(int src, int dest) {
         // get the edge
-        Edge edge = nodes.get(src).getEdgeTo(dest);
+        Edge edge = ((Node) nodes.get(src)).getEdgeTo(dest);
 
         // remove from edges map
         edges.remove(edge.getId());
 
         // delete edge in the source node
-        nodes.get(src).deleteEdgeTo(dest);
+        ((Node) nodes.get(src)).deleteEdgeTo(dest);
 
         return edge;
     }
