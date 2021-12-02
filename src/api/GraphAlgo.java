@@ -19,12 +19,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
         LinkedList<NodeData> list = new LinkedList<>();
 
         // iterate over all nodes and init them properly
-        Iterator<NodeData> reset = g.nodeIter();
-        while (reset.hasNext()) {
-            Node node = (Node) reset.next();
-            node.setTag(0);
-            node.setFinishTime(0); // init in case it wasn't initiated before
-        }
+        resetNodes(g);
 
         // iterate over the nodes again and sort
         int time = 0;
@@ -74,12 +69,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     public int DFS(DirectedWeightedGraph g) {
         // reset all node tags and finish times
-        Iterator<NodeData> reset = g.nodeIter();
-        while (reset.hasNext()) {
-            Node node = (Node) reset.next();
-            node.setTag(0);
-            node.setFinishTime(0);
-        }
+        resetNodes(g);
 
         // iterate over all the nodes and run dfs
         int time = 0;
@@ -122,6 +112,21 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
         return time;
     }
 
+    /**
+     * Reset the nodes tags
+     *
+     * @param g The graph containing the nodes
+     */
+    public void resetNodes(DirectedWeightedGraph g) {
+        // reset all node tags and finish times
+        Iterator<NodeData> reset = g.nodeIter();
+        while (reset.hasNext()) {
+            Node node = (Node) reset.next();
+            node.setTag(0);
+            node.setFinishTime(0);
+        }
+    }
+
     @Override
     public void init(DirectedWeightedGraph g) {
         this.graph = (Graph) g;
@@ -141,7 +146,8 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
     public boolean isConnected() {
         LinkedList<NodeData> list = TopologicalSort(graph);
         Node node = (Node) list.get(0);
-        int time = DFS(graph);
+        resetNodes(graph);
+        int time = visit(graph, node, 0);
 
         return node.getFinishTime() == time;
     }
