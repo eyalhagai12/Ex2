@@ -144,12 +144,19 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean isConnected() {
+        // get transposed graph
+        Graph gTrans = graph.getTranspose();
+
+        // use topological sort twice
+        // once on the original graph and once on the transposed graph
+        // ad if the times of the nodes that took the longest time is equal then we have a strongly connected graph
+        // must say i am not sure about this algorithm
         LinkedList<NodeData> list = TopologicalSort(graph);
         Node node = (Node) list.get(0);
-        resetNodes(graph);
-        int time = visit(graph, node, 0);
+        LinkedList<NodeData> transList = TopologicalSort(gTrans);
+        Node transNode = (Node) transList.get(0);
 
-        return node.getFinishTime() == time;
+        return node.getKey() == transNode.getKey();
     }
 
     @Override

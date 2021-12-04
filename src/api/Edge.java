@@ -19,6 +19,12 @@ public class Edge implements EdgeData {
         this.w = weight;
     }
 
+    public void transposeEdge() {
+        int temp = this.dest;
+        this.dest = this.src;
+        this.src = temp;
+    }
+
     public void setSrc(int src) {
         this.src = src;
     }

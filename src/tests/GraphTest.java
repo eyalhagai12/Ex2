@@ -27,7 +27,7 @@ class GraphTest {
     void getNode() {
         for (int i = 0; i < g.nodeSize(); ++i){
             Node node = (Node) g.getNode(i);
-            Node test = new Node();
+            Node test = new Node(i);
             test.setPos(node.getPos());
             test.parsePosition();
 
@@ -99,5 +99,16 @@ class GraphTest {
 
         assert (g.edgeSize() == edgeSize - 1);
         assert (edge.getSrc() == 0 && edge.getDest() == 1);
+    }
+
+    @Test
+    void getTranspose(){
+        Graph g = new Graph("data/CustomGraph.json");
+
+        Graph gTrans = new Graph(g);
+        gTrans = gTrans.getTranspose();
+
+
+        System.out.println("Done!");
     }
 }

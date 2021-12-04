@@ -1,9 +1,6 @@
 package api;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 public class Node implements NodeData {
     private final int id;
@@ -18,8 +15,8 @@ public class Node implements NodeData {
     /**
      * Empty constructor
      */
-    public Node() {
-        id = 0;
+    public Node(int id) {
+        this.id = id;
     }
 
     /**
@@ -66,7 +63,7 @@ public class Node implements NodeData {
      *
      * @param edge The new edge to add to the map
      */
-    public void addEdgeSrc(EdgeData edge) {
+    public void addEdgeOut(EdgeData edge) {
         out_edges.put(edge.getDest(), (Edge) edge);
     }
 
@@ -75,7 +72,7 @@ public class Node implements NodeData {
      *
      * @param edge The new edge to add to the map
      */
-    public void addEdgeDst(EdgeData edge) {
+    public void addEdgeIn(EdgeData edge) {
         in_edges.put(edge.getSrc(), (Edge) edge);
     }
 
@@ -108,6 +105,24 @@ public class Node implements NodeData {
      */
     public void deleteEdgeFrom(int src) {
         in_edges.remove(src);
+    }
+
+    /**
+     * Return a transposed node
+     *
+     * @return A Node object representing the transpose of hte original node
+     */
+    public void transposeNode() {
+        // swap in and out edges
+        HashMap<Integer, EdgeData> temp = this.in_edges;
+        this.in_edges = this.out_edges;
+        this.out_edges = temp;
+
+        // swap edge source and destination
+        for (EdgeData edge : this.out_edges.values()) {
+            ((Edge) edge).transposeEdge();
+        }
+
     }
 
     public int getFinishTime() {

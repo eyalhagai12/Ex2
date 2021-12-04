@@ -4,8 +4,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
-    private final HashMap<Integer, NodeData> nodes;
+    private HashMap<Integer, NodeData> nodes;
     private final HashMap<Integer, EdgeData> edges;
+
+    /**
+     * Default constructor
+     */
+    public Graph() {
+        nodes = new HashMap<>();
+        edges = new HashMap<>();
+    }
 
     /**
      * Create a new graph from a given file
@@ -42,7 +50,10 @@ public class Graph implements DirectedWeightedGraph {
             // add the edges going out of this node to the node
             for (Edge e : edges_arr) {
                 if (e.getSrc() == n.getKey()) {
-                    n.addEdgeSrc(e);
+                    n.addEdgeOut(e);
+                }
+                if (e.getDest() == n.getKey()) {
+                    n.addEdgeIn(e);
                 }
             }
 
@@ -58,10 +69,44 @@ public class Graph implements DirectedWeightedGraph {
      * @param g The graph to duplicate
      */
     public Graph(DirectedWeightedGraph g) {
-        Graph graph = (Graph) g;
+        this.nodes = new HashMap<>();
+        this.edges = new HashMap<>();
 
-        this.nodes = (HashMap<Integer, NodeData>) graph.nodes.clone();
-        this.edges = (HashMap<Integer, EdgeData>) graph.edges.clone();
+        // duplicate nodes
+        Iterator<NodeData> nodes = g.nodeIter();
+        while (nodes.hasNext()) {
+            Node node = (Node) nodes.next();
+
+            GeoPoint point = node.getLocation();
+            int id = node.getKey();
+            this.nodes.put(id, new Node(id, point));
+        }
+
+        // duplicate edges
+        Iterator<EdgeData> edges = g.edgeIter();
+        while (edges.hasNext()) {
+            Edge edge = (Edge) edges.next();
+            Edge newEdge = new Edge(edge.getSrc(), edge.getDest(), edge.getWeight());
+            newEdge.setId(edge.getId());
+
+            Node src = (Node) getNode(newEdge.getSrc());
+            Node dest = (Node) getNode(newEdge.getDest());
+
+            src.addEdgeOut(newEdge);
+            dest.addEdgeIn(newEdge);
+            this.edges.put(newEdge.getId(), newEdge);
+        }
+
+    }
+
+    public Graph getTranspose() {
+        Graph gTranspose = new Graph(this);
+
+        for (NodeData node : gTranspose.nodes.values()) {
+            ((Node) node).transposeNode();
+        }
+
+        return gTranspose;
     }
 
     @Override
@@ -98,8 +143,8 @@ public class Graph implements DirectedWeightedGraph {
         edges.put(edges.size(), edge);
 
         // add to the relevant nodes
-        ((Node) nodes.get(src)).addEdgeSrc(edge);
-        ((Node) nodes.get(dest)).addEdgeDst(edge);
+        ((Node) nodes.get(src)).addEdgeOut(edge);
+        ((Node) nodes.get(dest)).addEdgeIn(edge);
     }
 
     @Override
