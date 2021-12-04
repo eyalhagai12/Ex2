@@ -11,6 +11,7 @@ public class Node implements NodeData {
     private String pos;
     private int tag;
     private int finishTime;
+    private NodeData previousNode = null;
 
     /**
      * Empty constructor
@@ -123,6 +124,24 @@ public class Node implements NodeData {
             ((Edge) edge).transposeEdge();
         }
 
+    }
+
+    /**
+     * Set the previous node for the BFS
+     *
+     * @param node The node to set as the previous node
+     */
+    public void setPreviousNode(NodeData node) {
+        this.previousNode = node;
+    }
+
+    /**
+     * Get the previous node
+     *
+     * @return The previous node in the BFS algorithm
+     */
+    public NodeData getPreviousNode() {
+        return previousNode;
     }
 
     public int getFinishTime() {

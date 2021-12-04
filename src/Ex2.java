@@ -9,10 +9,6 @@ public class Ex2 {
 
     public static void main(String[] args) {
         Graph g = new Graph("data/G2.json");
-        GraphAlgo ga = new GraphAlgo();
-        ga.init(g);
-        int time = ga.DFS(g);
-        LinkedList<NodeData> list = ga.TopologicalSort(g);
         System.out.println("Done!");
     }
 

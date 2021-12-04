@@ -1,13 +1,11 @@
 package tests;
 
-import api.Graph;
-import api.GraphAlgo;
-import api.Node;
-import api.NodeData;
+import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,10 +35,10 @@ class GraphAlgoTest {
 
     @Test
     void topologicalSort() {
-        LinkedList<NodeData> list1 = algo[0].TopologicalSort(graphs[0]);
-        LinkedList<NodeData> list2 = algo[1].TopologicalSort(graphs[1]);
-        LinkedList<NodeData> list3 = algo[2].TopologicalSort(graphs[2]);
-        LinkedList<NodeData> list4 = algo[3].TopologicalSort(graphs[3]);
+        LinkedList<NodeData> list1 = utils.TopologicalSort(graphs[0]);
+        LinkedList<NodeData> list2 = utils.TopologicalSort(graphs[1]);
+        LinkedList<NodeData> list3 = utils.TopologicalSort(graphs[2]);
+        LinkedList<NodeData> list4 = utils.TopologicalSort(graphs[3]);
 
         assert (isSorted(list1));
         assert (isSorted(list2));
@@ -61,10 +59,6 @@ class GraphAlgoTest {
     }
 
     @Test
-    void DFS() {
-    }
-
-    @Test
     void init() {
     }
 
@@ -78,5 +72,10 @@ class GraphAlgoTest {
         assert(algo[1].isConnected());
         assert(algo[2].isConnected());
         assert(!algo[3].isConnected());
+    }
+
+    @Test
+    void shortestPath(){
+        List<NodeData> list = algo[0].shortestPath(0, 16);
     }
 }

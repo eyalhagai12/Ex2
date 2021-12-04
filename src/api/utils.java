@@ -1,0 +1,191 @@
+package api;
+
+import java.util.*;
+
+/**
+ * This class has some graph common algorithms
+ */
+public class utils {
+
+    /**
+     * This function takes a graph and returns a list sorted by topological sort
+     *
+     * @param g The graph to sort
+     * @return A list of type LinkedList<NodeData> sorted by topological sort
+     */
+    public static LinkedList<NodeData> TopologicalSort(DirectedWeightedGraph g) {
+        // init an empty list
+        LinkedList<NodeData> list = new LinkedList<>();
+
+        // iterate over all nodes and init them properly
+        resetNodes(g);
+
+        // iterate over the nodes again and sort
+        int time = 0;
+        Iterator<NodeData> sort = g.nodeIter();
+        LinkedList<NodeData> result = new LinkedList<>();
+
+        while (sort.hasNext()) {
+            Node node = (Node) sort.next();
+            if (node.getTag() == 0) {
+                time = DFSForTopSort(g, node, time, result);
+            }
+
+        }
+
+        Collections.reverse(result);
+
+        return result;
+    }
+
+    /**
+     * A dfs like function that gets a graph, a node to start from, time which is 0 at the start
+     * and a list to add elements to
+     *
+     * @param graph The graph on which we operate
+     * @param node  The node from which to start
+     * @param time  The time from which to start counting
+     * @param list  The list to add the elements to
+     * @return An integer representing the time it took to find this current node
+     */
+    private static int DFSForTopSort(DirectedWeightedGraph graph, NodeData node, int time, List<NodeData> list) {
+        node.setTag(1);
+        time += 1;
+
+        for (int next : ((Node) node).getOut_edges().keySet()) {
+            Node nextNode = (Node) graph.getNode(next);
+            if (nextNode.getTag() == 0) {
+                time = DFSForTopSort(graph, nextNode, time, list);
+                time += 1;
+            }
+        }
+
+        ((Node) node).setFinishTime(time);
+        list.add(node);
+
+        return time;
+    }
+
+    public static int DFS(DirectedWeightedGraph g) {
+        // reset all node tags and finish times
+        resetNodes(g);
+
+        // iterate over all the nodes and run dfs
+        int time = 0;
+        Iterator<NodeData> sort = g.nodeIter();
+
+        while (sort.hasNext()) {
+            Node node = (Node) sort.next();
+            if (node.getTag() == 0) {
+                time = visit(g, node, time);
+            }
+
+        }
+
+        return time;
+
+    }
+
+    /**
+     * Visit all the unvisited neighbors of a given node
+     *
+     * @param graph The graph on which we operate
+     * @param node  The node from which to start
+     * @param time  The time from which to start
+     * @return The time it took to finish processing that node
+     */
+    public static int visit(DirectedWeightedGraph graph, NodeData node, int time) {
+        node.setTag(1);
+        time += 1;
+
+        for (int next : ((Node) node).getOut_edges().keySet()) {
+            Node nextNode = (Node) graph.getNode(next);
+            if (nextNode.getTag() == 0) {
+                time = visit(graph, nextNode, time);
+                time += 1;
+            }
+        }
+
+        ((Node) node).setFinishTime(time);
+
+        return time;
+    }
+
+    /**
+     * Reset the nodes tags
+     *
+     * @param g The graph containing the nodes
+     */
+    public static void resetNodes(DirectedWeightedGraph g) {
+        // reset all node tags and finish times
+        Iterator<NodeData> reset = g.nodeIter();
+        while (reset.hasNext()) {
+            Node node = (Node) reset.next();
+            node.setTag(0);
+            node.setFinishTime(0);
+        }
+    }
+
+    /**
+     * A function that does a breadth first search and returns a list of nodes representing the path
+     *
+     * @param graph The graph on which we operate
+     * @param start The node from which we start
+     * @param end   The node to which we want to find a path to
+     * @return A list of nodes
+     */
+    public static List<NodeData> BFSShortestPath(DirectedWeightedGraph graph, int start, int end) {
+        // reset the tags of the nodes in the graph
+        resetNodes(graph);
+
+        // init result list
+        List<NodeData> result = new LinkedList<>();
+
+        //init queue
+        Queue<NodeData> nodes = new LinkedList<>();
+
+        // get relevant nodes
+        NodeData startNode = graph.getNode(start);
+        NodeData endNode = graph.getNode(end);
+
+        // add the first node to the queue
+        nodes.add(startNode);
+        NodeData currentNode;
+        boolean found = false;
+
+        while (!nodes.isEmpty()) {
+            currentNode = nodes.remove(); // save current node
+            currentNode.setTag(1);
+
+            // if node was found, break
+            if (currentNode == endNode) {
+                found = true;
+                break;
+            } else { // add all children to the queue and save the previous node for each node
+                Node node = (Node) currentNode;
+                HashMap<Integer, EdgeData> next_edges = node.getOut_edges();
+                for (EdgeData edge : next_edges.values()) {
+                    Node nextNode = (Node) graph.getNode(edge.getDest());
+                    if (nextNode.getTag() == 0 && !nodes.contains(nextNode)) {
+                        nextNode.setPreviousNode(currentNode);
+                        nodes.add(nextNode);
+                    }
+                }
+            }
+        }
+
+        if (!found){
+            return null;
+        }
+
+        // backtrack all nodes and add them to the list
+        Node n = (Node) endNode;
+        while (n != null) {
+            result.add(n);
+            n = (Node) n.getPreviousNode();
+        }
+
+        Collections.reverse(result);
+        return result;
+    }
+}

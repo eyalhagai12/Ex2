@@ -8,125 +8,6 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
     public GraphAlgo() {
     }
 
-    /**
-     * This function takes a graph and returns a list sorted by topological sort
-     *
-     * @param g The graph to sort
-     * @return A list of type LinkedList<NodeData> sorted by topological sort
-     */
-    public LinkedList<NodeData> TopologicalSort(DirectedWeightedGraph g) {
-        // init an empty list
-        LinkedList<NodeData> list = new LinkedList<>();
-
-        // iterate over all nodes and init them properly
-        resetNodes(g);
-
-        // iterate over the nodes again and sort
-        int time = 0;
-        Iterator<NodeData> sort = g.nodeIter();
-        LinkedList<NodeData> result = new LinkedList<>();
-
-        while (sort.hasNext()) {
-            Node node = (Node) sort.next();
-            if (node.getTag() == 0) {
-                time = DFSForTopSort(g, node, time, result);
-            }
-
-        }
-
-        Collections.reverse(result);
-
-        return result;
-    }
-
-    /**
-     * A dfs like function that gets a graph, a node to start from, time which is 0 at the start
-     * and a list to add elements to
-     *
-     * @param graph The graph on which we operate
-     * @param node  The node from which to start
-     * @param time  The time from which to start counting
-     * @param list  The list to add the elements to
-     * @return An integer representing the time it took to find this current node
-     */
-    private int DFSForTopSort(DirectedWeightedGraph graph, NodeData node, int time, List<NodeData> list) {
-        node.setTag(1);
-        time += 1;
-
-        for (int next : ((Node) node).getOut_edges().keySet()) {
-            Node nextNode = (Node) graph.getNode(next);
-            if (nextNode.getTag() == 0) {
-                time = DFSForTopSort(graph, nextNode, time, list);
-                time += 1;
-            }
-        }
-
-        ((Node) node).setFinishTime(time);
-        list.add(node);
-
-        return time;
-    }
-
-    public int DFS(DirectedWeightedGraph g) {
-        // reset all node tags and finish times
-        resetNodes(g);
-
-        // iterate over all the nodes and run dfs
-        int time = 0;
-        Iterator<NodeData> sort = g.nodeIter();
-
-        while (sort.hasNext()) {
-            Node node = (Node) sort.next();
-            if (node.getTag() == 0) {
-                time = visit(g, node, time);
-            }
-
-        }
-
-        return time;
-
-    }
-
-    /**
-     * Visit all the unvisited neighbors of a given node
-     *
-     * @param graph The graph on which we operate
-     * @param node  The node from which to start
-     * @param time  The time from which to start
-     * @return The time it took to finish processing that node
-     */
-    private int visit(DirectedWeightedGraph graph, NodeData node, int time) {
-        node.setTag(1);
-        time += 1;
-
-        for (int next : ((Node) node).getOut_edges().keySet()) {
-            Node nextNode = (Node) graph.getNode(next);
-            if (nextNode.getTag() == 0) {
-                time = visit(graph, nextNode, time);
-                time += 1;
-            }
-        }
-
-        ((Node) node).setFinishTime(time);
-
-        return time;
-    }
-
-    /**
-     * Reset the nodes tags
-     *
-     * @param g The graph containing the nodes
-     */
-    public void resetNodes(DirectedWeightedGraph g) {
-        // reset all node tags and finish times
-        Iterator<NodeData> reset = g.nodeIter();
-        while (reset.hasNext()) {
-            Node node = (Node) reset.next();
-            node.setTag(0);
-            node.setFinishTime(0);
-        }
-    }
-
     @Override
     public void init(DirectedWeightedGraph g) {
         this.graph = (Graph) g;
@@ -151,9 +32,9 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
         // once on the original graph and once on the transposed graph
         // ad if the times of the nodes that took the longest time is equal then we have a strongly connected graph
         // must say i am not sure about this algorithm
-        LinkedList<NodeData> list = TopologicalSort(graph);
+        LinkedList<NodeData> list = utils.TopologicalSort(graph);
         Node node = (Node) list.get(0);
-        LinkedList<NodeData> transList = TopologicalSort(gTrans);
+        LinkedList<NodeData> transList = utils.TopologicalSort(gTrans);
         Node transNode = (Node) transList.get(0);
 
         return node.getKey() == transNode.getKey();
@@ -161,12 +42,17 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        return 0;
+        List<NodeData> list = utils.BFSShortestPath(graph, src, dest);
+        if (list == null) {
+            return -1;
+        }
+
+        return list.size();
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-        return null;
+        return utils.BFSShortestPath(graph, src, dest);
     }
 
     @Override
