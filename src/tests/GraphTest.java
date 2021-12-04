@@ -5,6 +5,7 @@ import api.GeoPoint;
 import api.Graph;
 import api.Node;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +15,12 @@ class GraphTest {
     @BeforeEach
     void init(){
        g = new Graph("data/G1.json");
+    }
+
+    @Test
+    void copy() {
+        Graph copy = new Graph(g);
+        assert (copy.hashCode() != g.hashCode());
     }
 
     @org.junit.jupiter.api.Test
@@ -81,7 +88,7 @@ class GraphTest {
         Node rem = (Node) g.removeNode(3);
 
         assert (g.nodeSize() == nodeSize - 1);
-        assert (g.edgeSize() == edgeSize - rem.outSize());
+        assert (g.edgeSize() == edgeSize - (rem.outSize() + rem.inSize()));
     }
 
     @org.junit.jupiter.api.Test
