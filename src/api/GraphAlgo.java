@@ -47,9 +47,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             return -1;
         }
 
-        double dist = list.get(list.size() - 1).getWeight();
-
-        return dist;
+        return list.get(list.size() - 1).getWeight();
     }
 
     @Override
