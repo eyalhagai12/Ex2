@@ -76,6 +76,8 @@ class GraphAlgoTest {
 
     @Test
     void shortestPath(){
-        List<NodeData> list = algo[0].shortestPath(0, 16);
+        List<NodeData> list = algo[3].shortestPath(0, 4);
+        double dist = algo[3].shortestPathDist(0, 4);
+        System.out.println();
     }
 }

@@ -123,6 +123,7 @@ public class utils {
             Node node = (Node) reset.next();
             node.setTag(0);
             node.setFinishTime(0);
+            node.setWeight(0);
         }
     }
 
@@ -152,10 +153,10 @@ public class utils {
         nodes.add(startNode);
         NodeData currentNode;
         boolean found = false;
+        startNode.setTag(1);
 
         while (!nodes.isEmpty()) {
             currentNode = nodes.remove(); // save current node
-            currentNode.setTag(1);
 
             // if node was found, break
             if (currentNode == endNode) {
@@ -164,12 +165,24 @@ public class utils {
             } else { // add all children to the queue and save the previous node for each node
                 Node node = (Node) currentNode;
                 HashMap<Integer, EdgeData> next_edges = node.getOut_edges();
+
                 for (EdgeData edge : next_edges.values()) {
                     Node nextNode = (Node) graph.getNode(edge.getDest());
-                    if (nextNode.getTag() == 0 && !nodes.contains(nextNode)) {
-                        nextNode.setPreviousNode(currentNode);
+                    double pathWeight = currentNode.getWeight() + edge.getWeight();
+
+                    if (nextNode.getTag() == 0) {
+                        nextNode.setTag(1);
                         nodes.add(nextNode);
+                        nextNode.setPreviousNode(currentNode);
+                        nextNode.setWeight(pathWeight);
+                    } else {
+                        if (pathWeight < nextNode.getWeight()){
+                            nextNode.setPreviousNode(currentNode);
+                            nextNode.setWeight(pathWeight);
+                        }
                     }
+
+
                 }
             }
         }

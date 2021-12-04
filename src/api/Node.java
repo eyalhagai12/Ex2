@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Node implements NodeData {
     private final int id;
     private GeoPoint location;
-    private double weight;
+    private double weight = 0;
     private HashMap<Integer, EdgeData> out_edges;
     private HashMap<Integer, EdgeData> in_edges;
     private String pos;
