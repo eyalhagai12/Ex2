@@ -175,8 +175,8 @@ public class utils {
                         nodes.add(nextNode);
                         nextNode.setPreviousNode(currentNode);
                         nextNode.setWeight(pathWeight);
-                    } else {
-                        if (pathWeight < nextNode.getWeight()){
+                    } else { // check if this route to the node is cheaper than its original route
+                        if (pathWeight < nextNode.getWeight()) {
                             nextNode.setPreviousNode(currentNode);
                             nextNode.setWeight(pathWeight);
                         }
@@ -187,7 +187,7 @@ public class utils {
             }
         }
 
-        if (!found){
+        if (!found) {
             return null;
         }
 
