@@ -81,14 +81,14 @@ class GraphTest {
     }
 
     @org.junit.jupiter.api.Test
-    void removeNode() {
+    void removeNode() { // might need to fix this test
         int nodeSize = g.nodeSize();
         int edgeSize = g.edgeSize();
 
         Node rem = (Node) g.removeNode(3);
 
         assert (g.nodeSize() == nodeSize - 1);
-        assert (g.edgeSize() == edgeSize - (rem.outSize() + rem.inSize()));
+        assert (g.edgeSize() == edgeSize - rem.outSize());
     }
 
     @org.junit.jupiter.api.Test
@@ -107,7 +107,6 @@ class GraphTest {
 
         Graph gTrans = new Graph(g);
         gTrans = gTrans.getTranspose();
-
 
         System.out.println("Done!");
     }

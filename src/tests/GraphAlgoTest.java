@@ -84,7 +84,8 @@ class GraphAlgoTest {
     @Test
     void save() {
         for (int i = 0; i < algo.length; ++i){
-            assert (algo[i].save("G" + i + "_save"));
+            boolean flag = algo[i].save("G" + i + "_save");
+            assert (flag);
         }
     }
 }
