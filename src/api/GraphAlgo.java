@@ -73,7 +73,8 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
-        File outFile = new File("saved_graphs/" + file);
+        String path = file.contains("/") ? file : "saved_graphs" + file;
+        File outFile = new File(path);
         try {
             FileWriter fw = new FileWriter(outFile);
             fw.write("");
