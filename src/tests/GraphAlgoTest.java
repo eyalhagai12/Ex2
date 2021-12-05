@@ -88,4 +88,21 @@ class GraphAlgoTest {
             assert (flag);
         }
     }
+    
+    @Test
+    void center() {
+    	NodeData test1 = algo[0].center();
+    	NodeData test2 = algo[1].center();
+    	NodeData test3 = algo[2].center();
+    	NodeData test4 = algo[3].center();
+    	
+    	assertTrue(test1!=null);
+    	assertTrue(test2!=null);
+    	assertTrue(test3!=null);
+    	assertFalse(test4!=null);
+    	
+    	System.out.println(test1.getKey());
+    	System.out.println(test2.getKey());
+    	System.out.println(test3.getKey());
+    }
 }
