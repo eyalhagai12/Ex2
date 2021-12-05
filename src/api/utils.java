@@ -211,15 +211,6 @@ public class utils {
     	    public int compare(NodeData o1, NodeData o2) {
     	    	return Double.compare(((Node)o1).getWeight(), ((Node)o2).getWeight());
     	    }});
-//    	        if(((Node)o1).getWeight() > ((Node)o2).getWeight()){
-//    	        	return 1;
-//    	        }
-//    	        else if (((Node)o1).getWeight() < ((Node)o2).getWeight()){
-//    	        	return -1;
-//    	        }
-//    	        else return 0;
-//    	    }
-//    	});
     	source.setWeight(0);
     	minHeap.add(source);
     	NodeData temp;
