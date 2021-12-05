@@ -209,22 +209,22 @@ public class utils {
     	PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
     	    @Override
     	    public int compare(NodeData o1, NodeData o2) {
-    	        if(((Node)o1).getWeight() > ((Node)o2).getWeight()){
-    	        	return 1;
-    	        }
-    	        else if (((Node)o1).getWeight() < ((Node)o2).getWeight()){
-    	        	return -1;
-    	        }
-    	        else return 0;
-    	    }
-    	});
+    	    	return Double.compare(((Node)o1).getWeight(), ((Node)o2).getWeight());
+    	    }});
+//    	        if(((Node)o1).getWeight() > ((Node)o2).getWeight()){
+//    	        	return 1;
+//    	        }
+//    	        else if (((Node)o1).getWeight() < ((Node)o2).getWeight()){
+//    	        	return -1;
+//    	        }
+//    	        else return 0;
+//    	    }
+//    	});
     	source.setWeight(0);
     	minHeap.add(source);
     	NodeData temp;
     	NodeData optimal=null;
-    	int countIters=0;
     	while(!minHeap.isEmpty()) {
-    		countIters++;
     		temp = minHeap.remove();
     		if(temp.getTag()==1)
     			continue;
@@ -246,12 +246,6 @@ public class utils {
 					minHeap.add(g.getNode(tempEdges[i].getDest()));
     		}
     	}
-//    	// get max weight of all nodes
-//    	double maxWeight=0;
-//    	for (int i = 0; i < g.nodeSize(); i++) {
-//			if(maxWeight< g.getNode(i).getWeight())
-//				maxWeight = g.getNode(i).getWeight();
-//		}
     	// reset tags of nodes
     	for (int i = 0; i < g.nodeSize(); i++) {
 			g.getNode(i).setTag(0);
