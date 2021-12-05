@@ -201,4 +201,61 @@ public class utils {
         Collections.reverse(result);
         return result;
     }
+    
+        public static double Dijkstra(Graph g, NodeData source) {
+    	for (int i = 0; i < g.nodeSize(); i++) {
+    		g.getNode(i).setWeight(Double.MAX_VALUE);
+		}
+    	PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
+    	    @Override
+    	    public int compare(NodeData o1, NodeData o2) {
+    	        if(((Node)o1).getWeight() > ((Node)o2).getWeight()){
+    	        	return 1;
+    	        }
+    	        else if (((Node)o1).getWeight() < ((Node)o2).getWeight()){
+    	        	return -1;
+    	        }
+    	        else return 0;
+    	    }
+    	});
+    	source.setWeight(0);
+    	minHeap.add(source);
+    	NodeData temp;
+    	NodeData optimal=null;
+    	int countIters=0;
+    	while(!minHeap.isEmpty()) {
+    		countIters++;
+    		temp = minHeap.remove();
+    		if(temp.getTag()==1)
+    			continue;
+    		EdgeData[] tempEdges = new EdgeData[((Node)temp).getOut_edges().values().size()];
+    		tempEdges = ((Node)temp).getOut_edges().values().toArray(tempEdges);
+    		for (int i = 0; i < tempEdges.length && temp.getTag()!=1 ; i++) {
+    			// get weight of edge + weight of neighbor
+				double weight = temp.getWeight() + tempEdges[i].getWeight();
+				// if weight of temp + edge < weight of neighbor, set weight of temp + edge as weight of neighbor
+				if(weight < g.getNode(tempEdges[i].getDest()).getWeight()) {
+					g.getNode(tempEdges[i].getDest()).setWeight(weight);
+					optimal = g.getNode(tempEdges[i].getDest());					
+				}
+			}
+    		
+    		temp.setTag(1);
+    		for (int i = 0; i < tempEdges.length; i++) {
+				if(g.getNode(tempEdges[i].getDest()).getTag()==0)
+					minHeap.add(g.getNode(tempEdges[i].getDest()));
+    		}
+    	}
+//    	// get max weight of all nodes
+//    	double maxWeight=0;
+//    	for (int i = 0; i < g.nodeSize(); i++) {
+//			if(maxWeight< g.getNode(i).getWeight())
+//				maxWeight = g.getNode(i).getWeight();
+//		}
+    	// reset tags of nodes
+    	for (int i = 0; i < g.nodeSize(); i++) {
+			g.getNode(i).setTag(0);
+		}
+    	return optimal.getWeight();
+    }
 }

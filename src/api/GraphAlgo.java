@@ -63,7 +63,24 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public NodeData center() {
-        return null;
+        if (!isConnected()) return null;
+    	// reset tags of nodes
+    	for (int i = 0; i < graph.nodeSize(); i++) {
+			graph.getNode(i).setTag(0);
+		}
+        double[] weights = new double[graph.nodeSize()];
+        for (int i = 0; i < weights.length; i++) {
+			weights[i] = utils.Dijkstra(graph, graph.getNode(i));
+		}
+        double min = Double.MAX_VALUE;
+        int index=-1;
+        for (int i = 0; i < weights.length; i++) {
+			if(min>weights[i]) {
+				min=weights[i];
+				index=i;
+			}
+		}
+        return graph.getNode(index);
     }
 
     @Override
