@@ -80,4 +80,11 @@ class GraphAlgoTest {
         double dist = algo[3].shortestPathDist(0, 4);
         System.out.println();
     }
+
+    @Test
+    void save() {
+        for (int i = 0; i < algo.length; ++i){
+            assert (algo[i].save("G" + i + "_save"));
+        }
+    }
 }

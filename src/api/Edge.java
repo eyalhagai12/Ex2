@@ -83,4 +83,12 @@ public class Edge implements EdgeData {
     public void setTag(int t) {
 
     }
+
+    @Override
+    public String toString() {
+        String str = "{\n\t'src': " + this.src + "\n\t";
+        str += "'w': " + w + "\n\t";
+        str += "'dest': " + dest + "\n}";
+        return str;
+    }
 }
