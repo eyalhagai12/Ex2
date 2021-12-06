@@ -51,7 +51,6 @@ public class jsonParser {
 
             // test
             HashMap map = parser.fromJson(result, HashMap.class);
-            System.out.println(map);
 
             // parse to different arrays
             String edge_str = map.get("Edges").toString();

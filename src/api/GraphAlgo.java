@@ -68,9 +68,14 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 			graph.getNode(i).setTag(0);
 		}
         double[] weights = new double[graph.nodeSize()];
-        for (int i = 0; i < weights.length; i++) {
-			weights[i] = utils.Dijkstra(graph, graph.getNode(i));
-		}
+        DjikstraThread thread1 = new DjikstraThread(graph, weights, 0, weights.length/2);
+        DjikstraThread thread2 = new DjikstraThread((Graph)this.copy(), weights, weights.length/2, weights.length);
+        thread1.start();
+        thread2.start();
+        while(thread1.isAlive() || thread2.isAlive()) {continue;}
+//        for (int i = 0; i < weights.length; i++) {
+//			weights[i] = utils.Dijkstra(graph, graph.getNode(i));
+//		}
         double min = Double.MAX_VALUE;
         int index=-1;
         for (int i = 0; i < weights.length; i++) {
