@@ -37,7 +37,6 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
         // use topological sort twice
         // once on the original graph and once on the transposed graph
         // ad if the times of the nodes that took the longest time is equal then we have a strongly connected graph
-        // must say i am not sure about this algorithm
         LinkedList<NodeData> list = utils.TopologicalSort(graph);
         Node node = (Node) list.get(0);
         LinkedList<NodeData> transList = utils.TopologicalSort(gTrans);

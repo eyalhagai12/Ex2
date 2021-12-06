@@ -174,9 +174,9 @@ public class Graph implements DirectedWeightedGraph {
 
         // delete all nodes coming in
         for (EdgeData e : node.getIn_edges().values()) {
-            edges.remove(((Edge) e).getId());
             Node fromNode = (Node) getNode(e.getSrc());
             fromNode.deleteEdgeTo(key);
+            edges.remove(((Edge) e).getId());
         }
 
         // remove node from map

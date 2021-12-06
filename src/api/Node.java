@@ -223,7 +223,7 @@ public class Node implements NodeData {
 
     @Override
     public String toString(){
-        String str = "";
+        String str = "Node: " + id;
         return str;
     }
 }
