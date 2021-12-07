@@ -51,7 +51,7 @@ class GraphAlgoTest {
         for (int i = 1; i < list.size(); ++i) {
             Node current = (Node) list.get(i);
             Node previous = (Node) list.get(i - 1);
-            if (current.getFinishTime() > previous.getFinishTime()){
+            if (current.getFinishTime() > previous.getFinishTime()) {
                 return false;
             }
         }
@@ -70,13 +70,13 @@ class GraphAlgoTest {
     @Test
     void isConnected() {
         assert (algo[0].isConnected());
-        assert(algo[1].isConnected());
-        assert(algo[2].isConnected());
-        assert(!algo[3].isConnected());
+        assert (algo[1].isConnected());
+        assert (algo[2].isConnected());
+        assert (!algo[3].isConnected());
     }
 
     @Test
-    void shortestPath(){
+    void shortestPath() {
         List<NodeData> list = algo[3].shortestPath(0, 4);
         double dist = algo[3].shortestPathDist(0, 4);
         System.out.println();
@@ -84,42 +84,40 @@ class GraphAlgoTest {
 
     @Test
     void save() {
-        for (int i = 0; i < algo.length; ++i){
+        for (int i = 0; i < algo.length; ++i) {
             boolean flag = algo[i].save("G" + i + "_save");
             assert (flag);
         }
     }
-    
+
     @Test
     void center() {
-    	NodeData test1 = algo[0].center();
-    	NodeData test2 = algo[1].center();
-    	NodeData test3 = algo[2].center();
-    	NodeData test4 = algo[3].center();
-    	
-    	assertTrue(test1!=null);
-    	assertTrue(test2!=null);
-    	assertTrue(test3!=null);
-    	assertFalse(test4!=null);
-    	
-    	System.out.println(test1.getKey());
-    	System.out.println(test2.getKey());
-    	System.out.println(test3.getKey());
+        NodeData test1 = algo[0].center();
+        NodeData test2 = algo[1].center();
+        NodeData test3 = algo[2].center();
+        NodeData test4 = algo[3].center();
+
+        assertTrue(test1 != null);
+        assertTrue(test2 != null);
+        assertTrue(test3 != null);
+        assertFalse(test4 != null);
+
+        System.out.println(test1.getKey());
+        System.out.println(test2.getKey());
+        System.out.println(test3.getKey());
     }
 
     @Test
-    void tsp(){ // is working fine now to try and make it a little more efficient
+    void tsp() { // is working fine now to try and make it a little more efficient
         List<NodeData> nodes = new LinkedList<>();
 
-        NodeData n1 = graphs[1].getNode(0);
-        NodeData n2 = graphs[1].getNode(7);
-        NodeData n3 = graphs[1].getNode(24);
+        int[] indexes = new int[]{0, 5, 2};
 
-        nodes.add(n1);
-        nodes.add(n2);
-        nodes.add(n3);
+        for (int index : indexes){
+            nodes.add(graphs[0].getNode(index));
+        }
 
-        List<NodeData> tsp = algo[1].tsp(nodes);
+        List<NodeData> tsp = algo[0].tsp(nodes);
         System.out.println(tsp);
     }
 }

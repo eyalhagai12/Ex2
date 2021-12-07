@@ -202,54 +202,55 @@ public class utils {
         Collections.reverse(result);
         return result;
     }
-    
-        public static double Dijkstra(Graph g, NodeData source) {
-    	for (int i = 0; i < g.nodeSize(); i++) {
-    		g.getNode(i).setWeight(Double.MAX_VALUE);
-		}
-    	PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
-    	    @Override
-    	    public int compare(NodeData o1, NodeData o2) {
-    	    	return Double.compare(((Node)o1).getWeight(), ((Node)o2).getWeight());
-    	    }});
-    	source.setWeight(0);
-    	minHeap.add(source);
-    	NodeData temp;
-    	NodeData optimal=null;
-    	while(!minHeap.isEmpty()) {
-    		temp = minHeap.remove();
-    		if(temp.getTag()==1)
-    			continue;
-    		EdgeData[] tempEdges = new EdgeData[((Node)temp).getOut_edges().values().size()];
-    		tempEdges = ((Node)temp).getOut_edges().values().toArray(tempEdges);
-    		for (int i = 0; i < tempEdges.length && temp.getTag()!=1 ; i++) {
-    			// get weight of edge + weight of neighbor
-				double weight = temp.getWeight() + tempEdges[i].getWeight();
-				// if weight of temp + edge < weight of neighbor, set weight of temp + edge as weight of neighbor
-				if(weight < g.getNode(tempEdges[i].getDest()).getWeight()) {
-					g.getNode(tempEdges[i].getDest()).setWeight(weight);
-					optimal = g.getNode(tempEdges[i].getDest());					
-				}
-			}
-    		
-    		temp.setTag(1);
-    		for (int i = 0; i < tempEdges.length; i++) {
-				if(g.getNode(tempEdges[i].getDest()).getTag()==0)
-					minHeap.add(g.getNode(tempEdges[i].getDest()));
-    		}
-    	}
-    	// reset tags of nodes
-    	for (int i = 0; i < g.nodeSize(); i++) {
-			g.getNode(i).setTag(0);
-		}
-    	return optimal.getWeight();
+
+    public static double Dijkstra(Graph g, NodeData source) {
+        for (int i = 0; i < g.nodeSize(); i++) {
+            g.getNode(i).setWeight(Double.MAX_VALUE);
+        }
+        PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
+            @Override
+            public int compare(NodeData o1, NodeData o2) {
+                return Double.compare(((Node) o1).getWeight(), ((Node) o2).getWeight());
+            }
+        });
+        source.setWeight(0);
+        minHeap.add(source);
+        NodeData temp;
+        NodeData optimal = null;
+        while (!minHeap.isEmpty()) {
+            temp = minHeap.remove();
+            if (temp.getTag() == 1)
+                continue;
+            EdgeData[] tempEdges = new EdgeData[((Node) temp).getOut_edges().values().size()];
+            tempEdges = ((Node) temp).getOut_edges().values().toArray(tempEdges);
+            for (int i = 0; i < tempEdges.length && temp.getTag() != 1; i++) {
+                // get weight of edge + weight of neighbor
+                double weight = temp.getWeight() + tempEdges[i].getWeight();
+                // if weight of temp + edge < weight of neighbor, set weight of temp + edge as weight of neighbor
+                if (weight < g.getNode(tempEdges[i].getDest()).getWeight()) {
+                    g.getNode(tempEdges[i].getDest()).setWeight(weight);
+                    optimal = g.getNode(tempEdges[i].getDest());
+                }
+            }
+
+            temp.setTag(1);
+            for (int i = 0; i < tempEdges.length; i++) {
+                if (g.getNode(tempEdges[i].getDest()).getTag() == 0)
+                    minHeap.add(g.getNode(tempEdges[i].getDest()));
+            }
+        }
+        // reset tags of nodes
+        for (int i = 0; i < g.nodeSize(); i++) {
+            g.getNode(i).setTag(0);
+        }
+        return optimal.getWeight();
     }
 
-    public static List<NodeData> nearestNeighbor(DirectedWeightedGraph graph, List<NodeData> nodes){
+    public static List<NodeData> nearestNeighbor(DirectedWeightedGraph graph, List<NodeData> nodes) {
         resetNodes(graph);
         List<NodeData> result = new LinkedList<>();
 
-        for (NodeData node : nodes){
+        for (NodeData node : nodes) {
             if (node.getTag() == 0) {
                 processNode(graph, node, result);
             }
@@ -261,11 +262,12 @@ public class utils {
 
     /**
      * This function goes over all nodes and gets the closest
-     * @param graph
-     * @param node
-     * @param list
+     *
+     * @param graph The graph we work on
+     * @param node The node to process
+     * @param list THe list to update
      */
-    private static void processNode(DirectedWeightedGraph graph, NodeData node, List<NodeData> list){
+    private static void processNode(DirectedWeightedGraph graph, NodeData node, List<NodeData> list) {
         // set node as visited
         node.setTag(1);
         list.add(node);
@@ -275,12 +277,12 @@ public class utils {
         Double minWeight = Double.MAX_VALUE;
         NodeData bestNode = null;
 
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             EdgeData edge = iter.next();
             NodeData next = graph.getNode(edge.getDest());
 
-            if (next.getTag() == 0 && edge.getWeight() < minWeight){
-                if (list.contains(next)){
+            if (next.getTag() == 0 && edge.getWeight() < minWeight) {
+                if (list.contains(next)) {
                     bestNode = next;
                     break;
                 }
@@ -291,5 +293,54 @@ public class utils {
 
         if (bestNode != null)
             processNode(graph, bestNode, list);
+    }
+
+    public static List<NodeData> closestInsertion(DirectedWeightedGraph graph, List<NodeData> cities){
+        // rest nodes
+        resetNodes(graph);
+
+        // create result list
+        List<NodeData> result = new LinkedList<>();
+
+        // add the first node to the result
+        cities.get(0).setTag(1);
+        result.add(cities.get(0));
+
+        while (check(cities)){
+            double dist = Double.MAX_VALUE;
+            NodeData next = null;
+            NodeData prevNode = null;
+
+            // iterate over all the nodes that the result tour can reach
+            for (NodeData current : result){
+                Iterator<EdgeData> iter = graph.edgeIter(current.getKey());
+                while (iter.hasNext()){
+                    EdgeData edge = iter.next();
+                    NodeData node = graph.getNode(edge.getDest());
+
+                    if (node.getTag() == 0 && edge.getWeight() < dist){
+                        dist = edge.getWeight();
+                        next = node;
+                        prevNode = current;
+                    }
+                }
+            }
+
+            if (next != null) {
+                next.setTag(1);
+                result.add(result.indexOf(prevNode) + 1, next);
+            }
+        }
+
+        return result;
+    }
+
+    private static boolean check(List<NodeData> cities){
+        for (NodeData city : cities){
+            if (city.getTag() == 0){
+                return true;
+            }
+        }
+        return false;
     }
 }

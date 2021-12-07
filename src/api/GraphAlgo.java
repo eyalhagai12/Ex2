@@ -89,12 +89,12 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return utils.nearestNeighbor(graph, cities);
+        return utils.closestInsertion(graph, cities);
     }
 
     @Override
     public boolean save(String file) {
-        String path = file.contains("/") ? file : "saved_graphs" + file;
+        String path = file.contains("/") ? file : "saved_graphs." + file;
         File outFile = new File(path);
         try {
             FileWriter fw = new FileWriter(outFile);
