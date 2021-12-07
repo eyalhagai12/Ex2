@@ -12,6 +12,7 @@ public class Node implements NodeData {
     private int tag;
     private int finishTime;
     private NodeData previousNode = null;
+    private String info;
 
     /**
      * Empty constructor
@@ -203,12 +204,12 @@ public class Node implements NodeData {
 
     @Override
     public String getInfo() {
-        return null;
+        return info;
     }
 
     @Override
     public void setInfo(String s) {
-
+        info = s;
     }
 
     @Override

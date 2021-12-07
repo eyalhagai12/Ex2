@@ -4,6 +4,7 @@ import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -104,5 +105,21 @@ class GraphAlgoTest {
     	System.out.println(test1.getKey());
     	System.out.println(test2.getKey());
     	System.out.println(test3.getKey());
+    }
+
+    @Test
+    void tsp(){ // is working fine now to try and make it a little more efficient
+        List<NodeData> nodes = new LinkedList<>();
+
+        NodeData n1 = graphs[1].getNode(0);
+        NodeData n2 = graphs[1].getNode(7);
+        NodeData n3 = graphs[1].getNode(24);
+
+        nodes.add(n1);
+        nodes.add(n2);
+        nodes.add(n3);
+
+        List<NodeData> tsp = algo[1].tsp(nodes);
+        System.out.println(tsp);
     }
 }

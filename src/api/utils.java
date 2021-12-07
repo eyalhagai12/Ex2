@@ -124,6 +124,7 @@ public class utils {
             node.setTag(0);
             node.setFinishTime(0);
             node.setWeight(0);
+            node.setInfo("");
         }
     }
 
@@ -242,5 +243,53 @@ public class utils {
 			g.getNode(i).setTag(0);
 		}
     	return optimal.getWeight();
+    }
+
+    public static List<NodeData> nearestNeighbor(DirectedWeightedGraph graph, List<NodeData> nodes){
+        resetNodes(graph);
+        List<NodeData> result = new LinkedList<>();
+
+        for (NodeData node : nodes){
+            if (node.getTag() == 0) {
+                processNode(graph, node, result);
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * This function goes over all nodes and gets the closest
+     * @param graph
+     * @param node
+     * @param list
+     */
+    private static void processNode(DirectedWeightedGraph graph, NodeData node, List<NodeData> list){
+        // set node as visited
+        node.setTag(1);
+        list.add(node);
+
+        // iterate over out going nodes
+        Iterator<EdgeData> iter = graph.edgeIter(node.getKey());
+        Double minWeight = Double.MAX_VALUE;
+        NodeData bestNode = null;
+
+        while(iter.hasNext()){
+            EdgeData edge = iter.next();
+            NodeData next = graph.getNode(edge.getDest());
+
+            if (next.getTag() == 0 && edge.getWeight() < minWeight){
+                if (list.contains(next)){
+                    bestNode = next;
+                    break;
+                }
+                minWeight = edge.getWeight();
+                bestNode = next;
+            }
+        }
+
+        if (bestNode != null)
+            processNode(graph, bestNode, list);
     }
 }
