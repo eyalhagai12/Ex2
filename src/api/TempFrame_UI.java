@@ -87,13 +87,13 @@ public class TempFrame_UI extends JFrame implements ActionListener {
     
     public void addEdge() {
     	tf = new JTextField();
-        tf.setBounds(105, 60, 100, 20);
+        tf.setBounds(105, 80, 100, 20);
 
         b4 = new JButton("Add edge");
-        b4.setBounds(100, 90, 110, 30);
+        b4.setBounds(100, 110, 110, 30);
 
-        l = new JLabel("<html>Enter edge's id and source node, destination node </br>as follows: src,dst,id</html>");
-        l.setBounds(10, 25, 300, 30);
+        l = new JLabel("<html>Enter edge's id and source node, destination node </br>as follows: src,dst,weight</html>");
+        l.setBounds(10, 25, 300, 45);
 
         add(b4);
         add(tf);
