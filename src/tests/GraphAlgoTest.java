@@ -93,8 +93,8 @@ class GraphAlgoTest {
     }
 
     @Test
-    void load(){
-        for (int i = 0; i < algo.length; ++i){
+    void load() {
+        for (int i = 0; i < algo.length; ++i) {
             String file = "saved_graphs/G" + i + "_save.json";
             algo[i].load(file);
         }
@@ -119,31 +119,32 @@ class GraphAlgoTest {
 
     @Test
     void tsp() { // is working fine now to try and make it a little more efficient
-        List<NodeData> nodes = new LinkedList<>();
+        List<NodeData> nodes;
 
-        int[] indexes = new int[]{0, 5, 2};
+        int[] indexes = new int[]{0, 10, 12, 15};
         System.out.println("Tour should pass through " + Arrays.toString(indexes));
 
         for (int i = 0; i < algo.length; ++i) {
+            nodes = new LinkedList<>();
             for (int index : indexes) {
                 nodes.add(graphs[i].getNode(index));
             }
 
             List<NodeData> tsp = algo[i].tsp(nodes);
 
-            assert (validate(tsp, graphs[i]));
             System.out.println(tsp);
+            assert (validate(tsp, graphs[i]));
         }
 
     }
 
-    boolean validate(List<NodeData> path, DirectedWeightedGraph graph){
-        for (int i = 0; i < path.size() - 1; ++i){
+    boolean validate(List<NodeData> path, DirectedWeightedGraph graph) {
+        for (int i = 0; i < path.size() - 1; ++i) {
             NodeData current = path.get(i);
             NodeData nextNode = path.get(i + 1);
             EdgeData connectingEdge = graph.getEdge(current.getKey(), nextNode.getKey());
 
-            if (connectingEdge == null){
+            if (connectingEdge == null) {
                 return false;
             }
         }

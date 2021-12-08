@@ -240,12 +240,12 @@ public class utils {
         double maxWeight = Double.MIN_VALUE;
         int index = -1;
         for (int i = 0; i < g.nodeSize(); i++) {
-			if(maxWeight<g.getNode(i).getWeight()) {
-				maxWeight=g.getNode(i).getWeight();
-				index=i;
-			}
-				
-		}
+            if (maxWeight < g.getNode(i).getWeight()) {
+                maxWeight = g.getNode(i).getWeight();
+                index = i;
+            }
+
+        }
         // reset tags of nodes
         for (int i = 0; i < g.nodeSize(); i++) {
             g.getNode(i).setTag(0);
@@ -257,53 +257,93 @@ public class utils {
         resetNodes(graph);
         List<NodeData> result = new LinkedList<>();
 
-        for (NodeData node : nodes) {
-            if (node.getTag() == 0) {
-                processNode(graph, node, result);
+        processNode(graph, nodes.get(0), nodes, result);
+
+        for (int i = 1; i < nodes.size(); ++i) {
+            if (nodes.get(i) != null && !result.containsAll(nodes)) {
+                resetNodes(graph);
+                result = new LinkedList<>();
+
+                processNode(graph, nodes.get(i), nodes, result);
             }
         }
+
+        // get the node with the least in connections
+//        Node start = (Node) result.get(0);
+//        int minSize = start.inSize();
+//
+//        for (int i = 1; i < result.size(); ++i) {
+//            Node node = (Node) result.get(i);
+//            if (node.inSize() < minSize) {
+//                minSize = node.inSize();
+//                start = node;
+//            }
+//        }
+//
+//        result = new LinkedList<>();
+//        resetNodes(graph);
+//        processNode(graph, start, result);
+
 
         return result;
     }
 
+    private static boolean validate(List<NodeData> path, DirectedWeightedGraph graph) {
+        for (int i = 0; i < path.size() - 1; ++i) {
+            NodeData current = path.get(i);
+            NodeData nextNode = path.get(i + 1);
+            EdgeData connectingEdge = graph.getEdge(current.getKey(), nextNode.getKey());
+
+            if (connectingEdge == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
      * This function goes over all nodes and gets the closest
      *
      * @param graph The graph we work on
-     * @param node The node to process
-     * @param list THe list to update
+     * @param node  The node to process
+     * @param list  THe list to update
      */
-    private static void processNode(DirectedWeightedGraph graph, NodeData node, List<NodeData> list) {
+    private static void processNode(DirectedWeightedGraph graph, NodeData node, List<NodeData> cities, List<NodeData> list) {
         // set node as visited
         node.setTag(1);
         list.add(node);
 
         // iterate over out going nodes
         Iterator<EdgeData> iter = graph.edgeIter(node.getKey());
-        Double minWeight = Double.MAX_VALUE;
+        double minWeight = Double.MAX_VALUE;
         NodeData bestNode = null;
 
         while (iter.hasNext()) {
             EdgeData edge = iter.next();
             NodeData next = graph.getNode(edge.getDest());
+            boolean hasWantedNodes = false;
 
-            if (next.getTag() == 0 && edge.getWeight() < minWeight) {
-                if (list.contains(next)) {
-                    bestNode = next;
-                    break;
+            if (next.getTag() == 0) {
+                if (cities.contains(next)) {
+                    hasWantedNodes = true;
+                } else if (((Node) next).outSize() == 1) {
+                    continue;
                 }
-                minWeight = edge.getWeight();
-                bestNode = next;
+
+                if (edge.getWeight() < minWeight && (!hasWantedNodes || cities.contains(next))) {
+                    minWeight = edge.getWeight();
+                    bestNode = next;
+                }
             }
         }
 
-        if (bestNode != null)
-            processNode(graph, bestNode, list);
+        if (bestNode != null && !list.containsAll(cities))
+            processNode(graph, bestNode, cities, list);
     }
 
     // not entirely correct
-    public static List<NodeData> closestInsertion(DirectedWeightedGraph graph, List<NodeData> cities){
+    public static List<NodeData> closestInsertion(DirectedWeightedGraph graph, List<NodeData> cities) {
         // rest nodes
         resetNodes(graph);
 
@@ -315,19 +355,19 @@ public class utils {
         cities.get(0).setTag(1);
         result.add(cities.get(0));
 
-        while (counter < cities.size()){
+        while (counter < cities.size()) {
             double dist = Double.MAX_VALUE;
             NodeData next = null;
             NodeData prevNode = null;
 
             // iterate over all the nodes that the result tour can reach
-            for (NodeData current : result){
+            for (NodeData current : result) {
                 Iterator<EdgeData> iter = graph.edgeIter(current.getKey());
-                while (iter.hasNext()){
+                while (iter.hasNext()) {
                     EdgeData edge = iter.next();
                     NodeData node = graph.getNode(edge.getDest());
 
-                    if (node.getTag() == 0 && edge.getWeight() < dist){
+                    if (node.getTag() == 0 && edge.getWeight() < dist) {
                         dist = edge.getWeight();
                         next = node;
                         prevNode = current;
@@ -345,9 +385,9 @@ public class utils {
         return result;
     }
 
-    private static boolean check(List<NodeData> cities){
-        for (NodeData city : cities){
-            if (city.getTag() == 0){
+    private static boolean check(List<NodeData> cities) {
+        for (NodeData city : cities) {
+            if (city.getTag() == 0) {
                 return true;
             }
         }

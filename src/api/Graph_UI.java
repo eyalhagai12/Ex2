@@ -49,7 +49,7 @@ public class Graph_UI extends JFrame {
     }
 
     public static void main(String[] args) {
-        Graph g = new Graph("data/G1.json");
+        Graph g = new Graph("data/G2.json");
         GraphAlgo algo = new GraphAlgo();
         algo.init(g);
 
