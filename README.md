@@ -18,5 +18,7 @@ path to your json file or that the json file is at the "data" directory of this 
    (thats the default directory in which the program searches for json files)
 3. in the command line write
 "java -jar Ex2.jar {path to your json file}" and the program wil run and the json file will be loaded.
-if you have the json file in the "data" directory you can simply write its name with the json extension
-and the json will be loaded.
+if you have the json file in the "data" directory you can simply write its name
+and the json will be loaded. (in both ways please also write the json file extension at the end i.e. "path/to/file.json" 
+or "file.json")
+
