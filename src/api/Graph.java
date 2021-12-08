@@ -1,11 +1,13 @@
 package api;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> nodes;
     private final HashMap<Integer, EdgeData> edges;
+    private int mc;
 
     /**
      * Default constructor
@@ -13,6 +15,7 @@ public class Graph implements DirectedWeightedGraph {
     public Graph() {
         nodes = new HashMap<>();
         edges = new HashMap<>();
+        mc=0;
     }
 
     /**
@@ -129,6 +132,8 @@ public class Graph implements DirectedWeightedGraph {
         } else {
             nodes.put(n.getKey(), n);
         }
+        
+        mc++;
     }
 
     @Override
@@ -145,16 +150,60 @@ public class Graph implements DirectedWeightedGraph {
         // add to the relevant nodes
         ((Node) nodes.get(src)).addEdgeOut(edge);
         ((Node) nodes.get(dest)).addEdgeIn(edge);
+        
+        mc++;
     }
 
     @Override
     public Iterator<NodeData> nodeIter() {
-        return nodes.values().iterator();
-    }
+    	Iterator<NodeData> iterator = new Iterator<NodeData>() {
+    		private Iterator<NodeData> iterator = nodes.values().iterator();
+    		private int modeC = mc;
+    		@Override
+    		public void remove() {
+    			if(modeC!=mc) throw new RuntimeException();
+    			NodeData node= iterator.next();
+    			removeNode(node.getKey());
+    			modeC++;
+    			iterator.remove();
+    		}
+			@Override
+			public boolean hasNext() {
+				if(modeC!=mc) throw new RuntimeException();
+				return iterator.hasNext();
+			}
+			@Override
+			public NodeData next() {
+				if(modeC!=mc) throw new RuntimeException();
+				return iterator.next();
+			}};
+			return iterator;
+    	}
 
     @Override
     public Iterator<EdgeData> edgeIter() {
-        return edges.values().iterator();
+    	Iterator<EdgeData> iterator = new Iterator<EdgeData>() {
+    		private Iterator<EdgeData> iterator = edges.values().iterator();
+    		private int modeC = mc;
+    		@Override
+    		public void remove() {
+    			if(modeC!=mc) throw new RuntimeException();
+    			EdgeData edge = iterator.next();
+    			removeEdge(edge.getSrc(),edge.getDest());
+    			modeC++;
+    			iterator.remove();
+    		}
+			@Override
+			public boolean hasNext() {
+				if(modeC!=mc) throw new RuntimeException();
+				return iterator.hasNext();
+			}
+			@Override
+			public EdgeData next() {
+				if(modeC!=mc) throw new RuntimeException();
+				return iterator.next();
+			}};
+			return iterator;
     }
 
     @Override
@@ -182,6 +231,8 @@ public class Graph implements DirectedWeightedGraph {
         // remove node from map
         nodes.remove(key);
 
+        mc++;
+        
         return node;
     }
 
@@ -195,7 +246,9 @@ public class Graph implements DirectedWeightedGraph {
 
         // delete edge in the source node
         ((Node) nodes.get(src)).deleteEdgeTo(dest);
-
+        
+        mc++;
+        
         return edge;
     }
 
@@ -211,6 +264,6 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public int getMC() {
-        return 0;
+        return mc;
     }
 }
