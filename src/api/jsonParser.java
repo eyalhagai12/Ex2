@@ -2,6 +2,7 @@ package api;
 
 import com.google.gson.*;
 import com.google.gson.internal.bind.JsonTreeReader;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 
 import java.io.File;
@@ -77,6 +78,7 @@ public class jsonParser {
             this.edges = edges;
 
         } catch (Exception e) {
+            System.out.println("There was an error trying to find or parse the json file");
             e.printStackTrace();
         }
 

@@ -8,54 +8,71 @@ import java.util.Iterator;
 import java.awt.Color;
 
 public class Nodes_UI extends JComponent {
-	
-	private final DirectedWeightedGraphAlgorithms algo;
-	private final DirectedWeightedGraph graph;
-	private Iterator<NodeData> iterator;
-	
-	private static final int HEIGHT = Graph_UI.HEIGHT;
-	private static final int WIDTH = Graph_UI.WIDTH;
-	
-	public static double Xmax = Double.MIN_VALUE;  public static double Ymax = Double.MIN_VALUE;
-	public static double Xmin = Double.MAX_VALUE;  public static double Ymin = Double.MAX_VALUE;
-	
-	public Nodes_UI(DirectedWeightedGraphAlgorithms algo) {
+
+    private final DirectedWeightedGraphAlgorithms algo;
+    private final DirectedWeightedGraph graph;
+    private Iterator<NodeData> iterator;
+    private final Graph_UI graph_ui;
+    private int HEIGHT;
+    private int WIDTH;
+
+    public static double Xmax = Double.MIN_VALUE;
+    public static double Ymax = Double.MIN_VALUE;
+    public static double Xmin = Double.MAX_VALUE;
+    public static double Ymin = Double.MAX_VALUE;
+
+    public Nodes_UI(DirectedWeightedGraphAlgorithms algo, Graph_UI graph_ui) {
         this.algo = algo;
         graph = algo.getGraph();
+        this.graph_ui = graph_ui;
+        WIDTH = graph_ui.getWidth();
+        HEIGHT = graph_ui.getHeight();
+        getCoordBounds();
+        setBounds(0, 0, WIDTH, HEIGHT);
+    }
+
+    private void getCoordBounds() {
         iterator = graph.nodeIter();
-		
-		while (iterator.hasNext()) {
-			NodeData node = iterator.next();
-			
-			if(Xmax < node.getLocation().x()) {
-				Xmax = node.getLocation().x();
-			}
-			if(Ymax < node.getLocation().y()) {
-				Ymax = node.getLocation().y();
-			}
-			if(Xmin > node.getLocation().x()) {
-				Xmin = node.getLocation().x();
-			}
-	        if(Ymin > node.getLocation().y()) {
-	        	Ymin = node.getLocation().y();
-	        }
-		}
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-	   super.paintComponent(g);
-	   Graphics2D g2d = (Graphics2D)g;
-	   g2d.setPaint(Color.RED);
-	   
-	   iterator = graph.nodeIter();
-	   while(iterator.hasNext()) {
-		   NodeData node = iterator.next();
-			// Linear map the point
-			double x = node.getLocation().x()-Xmin;
-			double y = node.getLocation().y()-Ymin;
-		   g2d.fillOval((int)((x/(Xmax-Xmin))*WIDTH*0.8)+(int)(0.08*WIDTH),(int)((y/(Ymax-Ymin))*HEIGHT*0.8),10,10);
-	   }
-	}
+
+        while (iterator.hasNext()) {
+            NodeData node = iterator.next();
+
+            if (Xmax < node.getLocation().x()) {
+                Xmax = node.getLocation().x();
+            }
+            if (Ymax < node.getLocation().y()) {
+                Ymax = node.getLocation().y();
+            }
+            if (Xmin > node.getLocation().x()) {
+                Xmin = node.getLocation().x();
+            }
+            if (Ymin > node.getLocation().y()) {
+                Ymin = node.getLocation().y();
+            }
+        }
+    }
+
+    private void updateSizes(){
+        WIDTH = graph_ui.getWidth();
+        HEIGHT = graph_ui.getHeight();
+        setBounds(0, 0, WIDTH, HEIGHT);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        updateSizes();
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setPaint(Color.RED);
+
+        iterator = graph.nodeIter();
+        while (iterator.hasNext()) {
+            NodeData node = iterator.next();
+            // Linearly map the point
+            double x = node.getLocation().x() - Xmin;
+            double y = node.getLocation().y() - Ymin;
+            g2d.fillOval((int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH), (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8), 15, 15);
+        }
+    }
 
 }

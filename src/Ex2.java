@@ -8,12 +8,12 @@ import java.util.LinkedList;
 public class Ex2 {
 
     public static void main(String[] args) {
-//        Graph g = new Graph("data/G2.json");
+        Graph g = new Graph("saved_graphs/G1_save.json");
 //        GraphAlgo algo = new GraphAlgo();
 //        algo.init(g);
 //        GraphUI ui = new GraphUI(algo);
 //
-//        System.out.println("Done!");
+        System.out.println("Done!");
     }
 
     /**
