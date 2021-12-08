@@ -52,7 +52,7 @@ public class Nodes_UI extends JComponent {
         }
     }
 
-    private void updateSizes(){
+    private void updateSizes() {
         WIDTH = graph_ui.getWidth();
         HEIGHT = graph_ui.getHeight();
         setBounds(0, 0, WIDTH, HEIGHT);
@@ -63,7 +63,6 @@ public class Nodes_UI extends JComponent {
         super.paintComponent(g);
         updateSizes();
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setPaint(Color.RED);
 
         iterator = graph.nodeIter();
         while (iterator.hasNext()) {
@@ -71,7 +70,14 @@ public class Nodes_UI extends JComponent {
             // Linearly map the point
             double x = node.getLocation().x() - Xmin;
             double y = node.getLocation().y() - Ymin;
-            g2d.fillOval((int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH), (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8)+5, 15, 15);
+
+            int x_coord = (int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH);
+            int y_coord = (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8) + 5;
+
+            g2d.setPaint(Color.RED);
+            g2d.fillOval(x_coord, y_coord, 20, 20);
+            g2d.setPaint(Color.BLUE);
+            g2d.drawString("" + node.getKey(), x_coord, y_coord);
         }
     }
 

@@ -1,11 +1,9 @@
 package api;
 
 import javax.swing.JComponent;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.Iterator;
-import java.awt.Color;
 
 public class Edges_UI extends JComponent {
     private final DirectedWeightedGraphAlgorithms algo;
@@ -57,9 +55,8 @@ public class Edges_UI extends JComponent {
             y2 = (int) ((y2 / (Ymax - Ymin)) * HEIGHT * 0.8) + 10;
 
             g2d.draw(new Line2D.Double(x1, y1, x2, y2));
-//            String weight = String.format("%.2f", edge.getWeight());
-//            g2d.drawString(weight, (int) (x1 + x2) / 2, (int) ((y1 + y2) / 2) + 20);
+            String weightStr = String.format("%.3f", edge.getWeight());
+            g.drawString(weightStr, (int) (x1 + x2) / 2, (int) (y1 + y2) / 2);
         }
-
     }
 }
