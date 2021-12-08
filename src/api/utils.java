@@ -216,7 +216,6 @@ public class utils {
         source.setWeight(0);
         minHeap.add(source);
         NodeData temp;
-        NodeData optimal = null;
         while (!minHeap.isEmpty()) {
             temp = minHeap.remove();
             if (temp.getTag() == 1)
@@ -229,7 +228,6 @@ public class utils {
                 // if weight of temp + edge < weight of neighbor, set weight of temp + edge as weight of neighbor
                 if (weight < g.getNode(tempEdges[i].getDest()).getWeight()) {
                     g.getNode(tempEdges[i].getDest()).setWeight(weight);
-                    optimal = g.getNode(tempEdges[i].getDest());
                 }
             }
 
@@ -239,11 +237,20 @@ public class utils {
                     minHeap.add(g.getNode(tempEdges[i].getDest()));
             }
         }
+        double maxWeight = Double.MIN_VALUE;
+        int index = -1;
+        for (int i = 0; i < g.nodeSize(); i++) {
+			if(maxWeight<g.getNode(i).getWeight()) {
+				maxWeight=g.getNode(i).getWeight();
+				index=i;
+			}
+				
+		}
         // reset tags of nodes
         for (int i = 0; i < g.nodeSize(); i++) {
             g.getNode(i).setTag(0);
         }
-        return optimal.getWeight();
+        return g.getNode(index).getWeight();
     }
 
     public static List<NodeData> nearestNeighbor(DirectedWeightedGraph graph, List<NodeData> nodes) {
