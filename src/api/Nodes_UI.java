@@ -71,7 +71,7 @@ public class Nodes_UI extends JComponent {
             // Linearly map the point
             double x = node.getLocation().x() - Xmin;
             double y = node.getLocation().y() - Ymin;
-            g2d.fillOval((int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH), (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8), 15, 15);
+            g2d.fillOval((int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH), (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8)+5, 15, 15);
         }
     }
 
