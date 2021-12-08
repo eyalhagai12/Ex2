@@ -302,18 +302,20 @@ public class utils {
             processNode(graph, bestNode, list);
     }
 
+    // not entirely correct
     public static List<NodeData> closestInsertion(DirectedWeightedGraph graph, List<NodeData> cities){
         // rest nodes
         resetNodes(graph);
 
         // create result list
         List<NodeData> result = new LinkedList<>();
+        int counter = 0;
 
         // add the first node to the result
         cities.get(0).setTag(1);
         result.add(cities.get(0));
 
-        while (check(cities)){
+        while (counter < cities.size()){
             double dist = Double.MAX_VALUE;
             NodeData next = null;
             NodeData prevNode = null;
@@ -335,6 +337,7 @@ public class utils {
 
             if (next != null) {
                 next.setTag(1);
+                counter = cities.contains(next) ? counter + 1 : counter;
                 result.add(result.indexOf(prevNode) + 1, next);
             }
         }

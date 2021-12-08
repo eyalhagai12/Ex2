@@ -1,11 +1,5 @@
 package api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
@@ -91,13 +85,13 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return utils.closestInsertion(graph, cities);
+        return utils.nearestNeighbor(graph, cities);
     }
 
     @Override
     public boolean save(String file) {
         String path = file.contains("/") ? file : "saved_graphs/" + file + ".json";
-        saveGraph sGraph = new saveGraph(graph);
+        SaveGraph sGraph = new SaveGraph(graph);
         return sGraph.save(path);
     }
 

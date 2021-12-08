@@ -4,6 +4,7 @@ import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -121,12 +122,32 @@ class GraphAlgoTest {
         List<NodeData> nodes = new LinkedList<>();
 
         int[] indexes = new int[]{0, 5, 2};
+        System.out.println("Tour should pass through " + Arrays.toString(indexes));
 
-        for (int index : indexes){
-            nodes.add(graphs[0].getNode(index));
+        for (int i = 0; i < algo.length; ++i) {
+            for (int index : indexes) {
+                nodes.add(graphs[i].getNode(index));
+            }
+
+            List<NodeData> tsp = algo[i].tsp(nodes);
+
+            assert (validate(tsp, graphs[i]));
+            System.out.println(tsp);
         }
 
-        List<NodeData> tsp = algo[0].tsp(nodes);
-        System.out.println(tsp);
+    }
+
+    boolean validate(List<NodeData> path, DirectedWeightedGraph graph){
+        for (int i = 0; i < path.size() - 1; ++i){
+            NodeData current = path.get(i);
+            NodeData nextNode = path.get(i + 1);
+            EdgeData connectingEdge = graph.getEdge(current.getKey(), nextNode.getKey());
+
+            if (connectingEdge == null){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

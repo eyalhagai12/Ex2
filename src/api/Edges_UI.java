@@ -30,7 +30,7 @@ public class Edges_UI extends JComponent {
         HEIGHT = graph_ui.getHeight();
     }
 
-    private void updateSizes(){
+    private void updateSizes() {
         WIDTH = graph_ui.getWidth();
         HEIGHT = graph_ui.getHeight();
     }
@@ -57,6 +57,8 @@ public class Edges_UI extends JComponent {
             y2 = (int) ((y2 / (Ymax - Ymin)) * HEIGHT * 0.8) + 5;
 
             g2d.draw(new Line2D.Double(x1, y1, x2, y2));
+            String weight = String.format("%.2f", edge.getWeight());
+            g2d.drawString(weight, (int) (x1 + x2) / 2, (int) ((y1 + y2) / 2) + 20);
         }
 
     }

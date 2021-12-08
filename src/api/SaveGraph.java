@@ -9,11 +9,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class saveGraph {
+public class SaveGraph {
     private List<LinkedTreeMap<String, Object>> Edges;
     private List<LinkedTreeMap<String, Object>> Nodes;
 
-    public saveGraph(DirectedWeightedGraph graph) {
+    public SaveGraph(DirectedWeightedGraph graph) {
         Nodes = new LinkedList<>();
         Edges = new LinkedList<>();
 
