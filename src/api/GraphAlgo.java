@@ -90,7 +90,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
-        String path = file.contains("/") ? file : "saved_graphs/" + file + ".json";
+        String path = file.contains("/") ? file : "saved_graphs/" + file;
         SaveGraph sGraph = new SaveGraph(graph);
         return sGraph.save(path);
     }

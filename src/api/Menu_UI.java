@@ -84,7 +84,13 @@ public class Menu_UI implements ActionListener {
         TempFrame_UI temp = new TempFrame_UI(frame);
 
         if (source == f1) { // save
-            System.out.println("TEST");
+            temp.setTitle("Save");
+            JLabel l = new JLabel("Saved at \"saved_graphs/SavedGraph.json\"");
+            l.setBounds(30, 50, 600, 60);
+            temp.setBounds(100, 100, 400, 200);
+            temp.add(l);
+            algo.save("SavedGraph.json");
+            temp.setVisible(true);
         }
         if (source == f2) // load
             System.out.println("TEST");
@@ -127,7 +133,7 @@ public class Menu_UI implements ActionListener {
         }
 
         if (source == o4) {// tsp
-            System.out.println("TEST");
+            temp.setTitle("TSP");
         }
     }
 }
