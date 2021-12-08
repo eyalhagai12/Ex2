@@ -1,5 +1,6 @@
 import api.*;
 
+import javax.imageio.plugins.tiff.GeoTIFFTagSet;
 import java.util.LinkedList;
 
 /**
@@ -8,13 +9,11 @@ import java.util.LinkedList;
 public class Ex2 {
 
     public static void main(String[] args) {
-        Graph g = new Graph("saved_graphs/G1_save.json");
-//        GraphAlgo algo = new GraphAlgo();
-//        algo.init(g);
-//        GraphUI ui = new GraphUI(algo);
-//
-        System.out.println("Done!");
+        System.out.println(args[0]);
+//        runGUI(args[0]);
+        DirectedWeightedGraphAlgorithms algo = getGraphAlgo(args[0]);
     }
+
 
     /**
      * This static function will be used to test your implementation
@@ -22,11 +21,8 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      * @return
      */
-    public static DirectedWeightedGraph getGrapg(String json_file) {
-        DirectedWeightedGraph ans = null;
-        // ****** Add your code here ******
-        //
-        // ********************************
+    public static DirectedWeightedGraph getGraph(String json_file) {
+        DirectedWeightedGraph ans = new Graph(json_file);
         return ans;
     }
 
@@ -36,11 +32,10 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      * @return
      */
-    public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
-        DirectedWeightedGraphAlgorithms ans = null;
-        // ****** Add your code here ******
-        //
-        // ********************************
+    public static DirectedWeightedGraphAlgorithms getGraphAlgo(String json_file) {
+        DirectedWeightedGraph graph = new Graph(json_file);
+        DirectedWeightedGraphAlgorithms ans = new GraphAlgo();
+        ans.init(graph);
         return ans;
     }
 
@@ -50,9 +45,7 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
     public static void runGUI(String json_file) {
-        DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
+        DirectedWeightedGraphAlgorithms alg = getGraphAlgo(json_file);
+        Graph_UI ui = new Graph_UI(alg);
     }
 }

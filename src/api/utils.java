@@ -1,6 +1,7 @@
 package api;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class has some graph common algorithms
@@ -194,6 +195,7 @@ public class utils {
 
         // backtrack all nodes and add them to the list
         Node n = (Node) endNode;
+        ((Node) startNode).setPreviousNode(null);
         while (n != null) {
             result.add(n);
             n = (Node) n.getPreviousNode();
@@ -203,7 +205,7 @@ public class utils {
         return result;
     }
 
-    public static double Dijkstra(Graph g, NodeData source) {
+    public static double Dijkstra(DirectedWeightedGraph g, NodeData source) {
         for (int i = 0; i < g.nodeSize(); i++) {
             g.getNode(i).setWeight(Double.MAX_VALUE);
         }
@@ -261,8 +263,8 @@ public class utils {
         Iterator<NodeData> nodeIter = graph.nodeIter();
         processNode(graph, nodeIter.next(), nodes, result);
 
-        while (nodeIter.hasNext()){
-            if (!result.containsAll(nodes)){
+        while (nodeIter.hasNext()) {
+            if (!result.containsAll(nodes)) {
                 resetNodes(graph);
                 result = new LinkedList<>();
 
@@ -272,7 +274,7 @@ public class utils {
             }
         }
 
-        if (!result.containsAll(nodes)){
+        if (!result.containsAll(nodes)) {
             return null;
         }
 
@@ -376,12 +378,53 @@ public class utils {
         return result;
     }
 
-    private static boolean check(List<NodeData> cities) {
-        for (NodeData city : cities) {
-            if (city.getTag() == 0) {
-                return true;
+    public static List<NodeData> customSearch(DirectedWeightedGraph graph, List<NodeData> cities) {
+        List<NodeData> result = new LinkedList<>();
+        NodeData bestNode = cities.get(0);
+
+        while (bestNode != null) {
+            // get the next node in cities
+            resetNodes(graph);
+            bestNode = addClosest(graph, bestNode, cities, result);
+        }
+
+
+        result = result.stream().distinct().collect(Collectors.toList());
+
+        if (result.size() > 0) {
+            int start = result.get(result.size() - 1).getKey();
+            int end = result.get(0).getKey();
+
+            List<NodeData> pathBack = BFSShortestPath(graph, start, end);
+
+            for (int i = 1; i < pathBack.size(); ++i){
+                result.add(pathBack.get(i));
             }
         }
-        return false;
+
+        return result;
+    }
+
+    private static NodeData addClosest(DirectedWeightedGraph graph, NodeData src, List<NodeData> cities, List<NodeData> result) {
+        // use dijkstra
+        Dijkstra(graph, src);
+
+        double minDist = Double.MAX_VALUE;
+        NodeData bestNode = null;
+        for (NodeData node : cities) {
+            if (node != null && node != src && !result.contains(node)) {
+                if (node.getWeight() < minDist) {
+                    minDist = node.getWeight();
+                    bestNode = node;
+                }
+            }
+        }
+
+        if (bestNode != null) {
+            List<NodeData> path = BFSShortestPath(graph, src.getKey(), bestNode.getKey());
+            result.addAll(path);
+        }
+
+        return bestNode;
     }
 }

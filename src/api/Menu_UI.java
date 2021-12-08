@@ -16,7 +16,7 @@ public class Menu_UI implements ActionListener {
 
     JMenuBar mb;
     JMenu file, edit, nodes, edges, operations;
-    JMenuItem f1, f2, e1, e2, e3, e4, o1, o2, o3, o4;
+    JMenuItem f1, f2, e1, e2, e3, e4, o1, o2, o3, o4, o5;
 
     private DirectedWeightedGraphAlgorithms algo;
     private Graph_UI frame;
@@ -51,8 +51,10 @@ public class Menu_UI implements ActionListener {
         o2 = new JMenuItem("Shortest Path");
         o3 = new JMenuItem("Center");
         o4 = new JMenuItem("TSP");
+        o5 = new JMenuItem("Shortest Path");
         operations.add(o1);
         operations.add(o2);
+        operations.add(o5);
         operations.add(o3);
         operations.add(o4);
 
@@ -133,7 +135,7 @@ public class Menu_UI implements ActionListener {
         }
 
         if (source == o4) {// tsp
-            temp.setTitle("TSP");
+            System.out.println("TSP");
         }
     }
 }

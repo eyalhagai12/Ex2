@@ -85,7 +85,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return utils.nearestNeighbor(graph, cities);
+        return utils.customSearch(graph, cities);
     }
 
     @Override
