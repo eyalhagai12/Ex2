@@ -56,7 +56,7 @@ public class Edges_UI extends JComponent {
 
             g2d.draw(new Line2D.Double(x1, y1, x2, y2));
             String weightStr = String.format("%.3f", edge.getWeight());
-            g.drawString(weightStr, (int) (x1 + x2) / 2, (int) (y1 + y2) / 2);
+            g2d.drawString(weightStr, (int) (x1 + x2) / 2, (int) (y1 + y2) / 2);
         }
     }
 }
