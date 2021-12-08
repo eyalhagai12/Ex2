@@ -126,7 +126,8 @@ public class Menu_UI implements ActionListener {
             temp.setVisible(true);
         }
 
-        if (source == o4) // tsp
+        if (source == o4) {// tsp
             System.out.println("TEST");
+        }
     }
 }
