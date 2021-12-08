@@ -60,7 +60,7 @@ public class Graph_UI extends JFrame {
     public DirectedWeightedGraphAlgorithms getAlgo() {return algo;}
     
     public static void main(String[] args) {
-        Graph g = new Graph("data/G3.json");
+        Graph g = new Graph("data/G1.json");
         GraphAlgo algo = new GraphAlgo();
         algo.init(g);
 

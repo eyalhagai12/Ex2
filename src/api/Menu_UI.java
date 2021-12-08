@@ -3,6 +3,7 @@ package api;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -11,6 +12,7 @@ import javax.swing.JMenuItem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Menu_UI implements ActionListener {
 
@@ -51,10 +53,10 @@ public class Menu_UI implements ActionListener {
         o2 = new JMenuItem("Shortest Path");
         o3 = new JMenuItem("Center");
         o4 = new JMenuItem("TSP");
-        o5 = new JMenuItem("Shortest Path");
+        //o5 = new JMenuItem("Shortest Path");
         operations.add(o1);
         operations.add(o2);
-        operations.add(o5);
+        //operations.add(o5);
         operations.add(o3);
         operations.add(o4);
 
@@ -86,23 +88,42 @@ public class Menu_UI implements ActionListener {
         TempFrame_UI temp = new TempFrame_UI(frame);
 
         if (source == f1) { // save
-            temp.setTitle("Save");
-            JLabel l = new JLabel("Saved at \"saved_graphs/SavedGraph.json\"");
-            l.setBounds(30, 50, 600, 60);
-            temp.setBounds(100, 100, 400, 200);
-            temp.add(l);
-            algo.save("SavedGraph.json");
-            temp.setVisible(true);
+//            temp.setTitle("Save");
+//            JLabel l = new JLabel("Saved at \"saved_graphs/SavedGraph.json\"");
+//            l.setBounds(30, 50, 600, 60);
+//            temp.setBounds(100, 100, 400, 200);
+//            temp.add(l);
+//            algo.save("SavedGraph.json");
+//            temp.setVisible(true);
+        	// code from https://www.codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
+        	JFileChooser fileChooser = new JFileChooser();
+        	fileChooser.setDialogTitle("Save file");   
+        	 
+        	int userSelection = fileChooser.showSaveDialog(frame);
+        	 
+        	if (userSelection == JFileChooser.APPROVE_OPTION) {
+        	    File fileToSave = fileChooser.getSelectedFile();
+        	    frame.getAlgo().save(fileToSave.getAbsolutePath());
+        	    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+        	}
         }
         if (source == f2) // load
             System.out.println("TEST");
 
 
-        if (source == e1) // add node
-            System.out.println("TEST");
+        if (source == e1) { // add node
+        	temp.setTitle("Add Node");
+        	temp.addNode();
+        	temp.setVisible(true);
+        }
+        
 
-        if (source == e2) // add edge
-            System.out.println("TEST");
+        if (source == e2) { // add edge
+        
+        	temp.setTitle("Add Edge");
+        	temp.addEdge();
+        	temp.setVisible(true);
+        }
 
         if (source == e3) // remove node
             System.out.println("TEST");
@@ -135,7 +156,9 @@ public class Menu_UI implements ActionListener {
         }
 
         if (source == o4) {// tsp
-            System.out.println("TSP");
+        	temp.setTitle("TSP");
+            temp.tsp();
+            temp.setVisible(true);
         }
     }
 }
