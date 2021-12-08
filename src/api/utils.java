@@ -254,36 +254,27 @@ public class utils {
     }
 
     public static List<NodeData> nearestNeighbor(DirectedWeightedGraph graph, List<NodeData> nodes) {
+        // init variables
         resetNodes(graph);
         List<NodeData> result = new LinkedList<>();
 
-        processNode(graph, nodes.get(0), nodes, result);
+        Iterator<NodeData> nodeIter = graph.nodeIter();
+        processNode(graph, nodeIter.next(), nodes, result);
 
-        for (int i = 1; i < nodes.size(); ++i) {
-            if (nodes.get(i) != null && !result.containsAll(nodes)) {
+        while (nodeIter.hasNext()){
+            if (!result.containsAll(nodes)){
                 resetNodes(graph);
                 result = new LinkedList<>();
 
-                processNode(graph, nodes.get(i), nodes, result);
+                processNode(graph, nodeIter.next(), nodes, result);
+            } else {
+                NodeData temp = nodeIter.next();
             }
         }
 
-        // get the node with the least in connections
-//        Node start = (Node) result.get(0);
-//        int minSize = start.inSize();
-//
-//        for (int i = 1; i < result.size(); ++i) {
-//            Node node = (Node) result.get(i);
-//            if (node.inSize() < minSize) {
-//                minSize = node.inSize();
-//                start = node;
-//            }
-//        }
-//
-//        result = new LinkedList<>();
-//        resetNodes(graph);
-//        processNode(graph, start, result);
-
+        if (!result.containsAll(nodes)){
+            return null;
+        }
 
         return result;
     }
