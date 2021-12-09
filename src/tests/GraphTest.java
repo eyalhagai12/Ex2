@@ -82,13 +82,15 @@ class GraphTest {
 
     @org.junit.jupiter.api.Test
     void removeNode() { // might need to fix this test
-        int nodeSize = g.nodeSize();
-        int edgeSize = g.edgeSize();
+        for (int i = 0; i < g.nodeSize(); ++i) {
+            int nodeSize = g.nodeSize();
+            int edgeSize = g.edgeSize();
 
-        Node rem = (Node) g.removeNode(3);
+            Node rem = (Node) g.removeNode(i);
 
-        assert (g.nodeSize() == nodeSize - 1);
-        assert (g.edgeSize() == edgeSize - rem.outSize());
+            assert (g.nodeSize() == nodeSize - 1);
+            assert (g.edgeSize() == edgeSize - (rem.outSize() + rem.inSize()));
+        }
     }
 
     @org.junit.jupiter.api.Test

@@ -158,7 +158,7 @@ public class Node implements NodeData {
     }
 
     public HashMap<Integer, EdgeData> getIn_edges() {
-        return out_edges;
+        return in_edges;
     }
 
     public void setPos(String pos) {
