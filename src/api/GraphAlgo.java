@@ -67,8 +67,10 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
     public NodeData center() {
         if (!isConnected()) return null;
         // reset tags of nodes
-        for (int i = 0; i < graph.nodeSize(); i++) {
-            graph.getNode(i).setTag(0);
+        Iterator<NodeData> iter = graph.nodeIter();
+        for (;iter.hasNext();) {
+        	NodeData n = iter.next();
+            n.setTag(0);
         }
         double[] weights = new double[graph.nodeSize()];
         if (weights.length > 100) {
@@ -83,9 +85,14 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             while (thread1.isAlive() || thread2.isAlive() || thread3.isAlive() || thread4.isAlive()) {
                 continue;
             }
-        } else {
+            thread1.interrupt(); thread2.interrupt();
+            thread3.interrupt(); thread4.interrupt();
+        } 
+        else {
+        	iter = graph.nodeIter();
             for (int i = 0; i < weights.length; i++) {
-                weights[i] = utils.Dijkstra(graph, graph.getNode(i));
+            	NodeData n = iter.next();
+                weights[i] = utils.Dijkstra(graph, n);
             }
         }
         double min = Double.MAX_VALUE;

@@ -207,7 +207,7 @@ public class utils {
 
     public static double Dijkstra(DirectedWeightedGraph g, NodeData source) {
         Iterator<NodeData> iterator = g.nodeIter();
-        for (; iterator.hasNext(); ) {
+    	for (; iterator.hasNext();) {
             iterator.next().setWeight(Double.MAX_VALUE);
         }
         PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
@@ -242,16 +242,19 @@ public class utils {
         }
         double maxWeight = Double.MIN_VALUE;
         int index = -1;
-        for (int i = 0; i < g.nodeSize(); i++) {
-            if (maxWeight < g.getNode(i).getWeight()) {
-                maxWeight = g.getNode(i).getWeight();
-                index = i;
+        iterator = g.nodeIter();
+        for (;iterator.hasNext();) {
+        	NodeData n = iterator.next();
+            if (maxWeight < n.getWeight()) {
+                maxWeight = n.getWeight();
+                index = n.getKey();
             }
-
         }
         // reset tags of nodes
-        for (int i = 0; i < g.nodeSize(); i++) {
-            g.getNode(i).setTag(0);
+        iterator = g.nodeIter();
+        for (;iterator.hasNext();) {
+        	NodeData n = iterator.next();
+            n.setTag(0);
         }
         return g.getNode(index).getWeight();
     }
@@ -398,7 +401,7 @@ public class utils {
 //
 //            List<NodeData> pathBack = BFSShortestPath(graph, start, end);
 //
-//            for (int i = 1; i < pathBack.size(); ++i) {
+//            for (int i = 1; i < pathBack.size(); ++i){
 //                result.add(pathBack.get(i));
 //            }
 //        }

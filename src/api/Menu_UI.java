@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class Menu_UI implements ActionListener {
@@ -88,14 +89,7 @@ public class Menu_UI implements ActionListener {
         TempFrame_UI temp = new TempFrame_UI(frame);
 
         if (source == f1) { // save
-//            temp.setTitle("Save");
-//            JLabel l = new JLabel("Saved at \"saved_graphs/SavedGraph.json\"");
-//            l.setBounds(30, 50, 600, 60);
-//            temp.setBounds(100, 100, 400, 200);
-//            temp.add(l);
-//            algo.save("SavedGraph.json");
-//            temp.setVisible(true);
-        	// code from https://www.codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
+        	// codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
         	JFileChooser fileChooser = new JFileChooser();
         	fileChooser.setDialogTitle("Save file");   
         	 
@@ -107,8 +101,24 @@ public class Menu_UI implements ActionListener {
         	    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
         	}
         }
-        if (source == f2) // load
-            System.out.println("TEST");
+        if (source == f2) { // load
+        	// codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
+        	JFileChooser fileChooser = new JFileChooser();
+        	fileChooser.setDialogTitle("Save file");   
+        	 
+        	int userSelection = fileChooser.showOpenDialog(frame);
+        	 
+        	if (userSelection == JFileChooser.APPROVE_OPTION) {
+        	    File fileToLoad = fileChooser.getSelectedFile();
+        	    frame.getAlgo().load(fileToLoad.getAbsolutePath());
+        	    System.out.println("Load file: " + fileToLoad.getAbsolutePath());
+        	    
+        	    DirectedWeightedGraphAlgorithms a = frame.getAlgo();
+        	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            	new Graph_UI(a);
+        	}
+        }
 
 
         if (source == e1) { // add node
