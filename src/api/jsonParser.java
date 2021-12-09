@@ -16,6 +16,27 @@ public class jsonParser {
     private NodeData[] nodes;
     private EdgeData[] edges;
 
+
+    /**
+     * Validate the path of the file to be added and create the directoyy if needed
+     *
+     * @param path The path to save the graph at
+     * @return True if save is successful
+     */
+    public static boolean validateFilePath(String path) {
+        File directory = new File("saved_graphs");
+        if (!directory.exists()) {
+            try {
+                return directory.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Create a jsonParser object
      *
@@ -89,7 +110,7 @@ public class jsonParser {
      *
      * @return A NodeData array
      */
-    public NodeData[] getNodes(){
+    public NodeData[] getNodes() {
         return nodes;
     }
 
@@ -98,7 +119,7 @@ public class jsonParser {
      *
      * @return An EdgeData array
      */
-    public EdgeData[] getEdges(){
+    public EdgeData[] getEdges() {
         return edges;
     }
 }

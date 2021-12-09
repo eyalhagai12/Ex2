@@ -24,7 +24,10 @@ public class Graph implements DirectedWeightedGraph {
      * @param path Path to the file
      */
     public Graph(String path) {
-        path = path.contains("/") ? path : "data/" + path;
+        if (!path.contains("/")){
+            path = "saved_graphs/" + path;
+            jsonParser.validateFilePath(path);
+        }
 
         // init maps
         nodes = new HashMap<>();

@@ -1,5 +1,6 @@
 package api;
 
+import java.io.File;
 import java.util.*;
 
 public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
@@ -25,15 +26,15 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean isConnected() {
-    	// check exceptions
-    	if(graph.edgeSize()<graph.nodeSize()-1) return false;
-    	Iterator<NodeData> iterator = graph.nodeIter();
-    	while(iterator.hasNext()) {
-    		NodeData node = iterator.next();
-    		if(((Node)node).getIn_edges().size()==0 || ((Node)node).getOut_edges().size()==0)
-    			return false;
-    	}
-    	// get transposed graph
+        // check exceptions
+        if (graph.edgeSize() < graph.nodeSize() - 1) return false;
+        Iterator<NodeData> iterator = graph.nodeIter();
+        while (iterator.hasNext()) {
+            NodeData node = iterator.next();
+            if (((Node) node).getIn_edges().size() == 0 || ((Node) node).getOut_edges().size() == 0)
+                return false;
+        }
+        // get transposed graph
         Graph gTrans = graph.getTranspose();
 
         // use topological sort twice
@@ -70,21 +71,22 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             graph.getNode(i).setTag(0);
         }
         double[] weights = new double[graph.nodeSize()];
-        if(weights.length>100) {
-        	DjikstraThread thread1 = new DjikstraThread(graph, weights, 0, (weights.length / 4));
-            DjikstraThread thread2 = new DjikstraThread((Graph) this.copy(), weights, (weights.length / 4), 2*(weights.length / 4));
-            DjikstraThread thread3 = new DjikstraThread((Graph) this.copy(), weights, 2*(weights.length / 4), 3*(weights.length / 4));
-            DjikstraThread thread4 = new DjikstraThread((Graph) this.copy(), weights, 3*(weights.length / 4), (weights.length));
+        if (weights.length > 100) {
+            DjikstraThread thread1 = new DjikstraThread(graph, weights, 0, (weights.length / 4));
+            DjikstraThread thread2 = new DjikstraThread((Graph) this.copy(), weights, (weights.length / 4), 2 * (weights.length / 4));
+            DjikstraThread thread3 = new DjikstraThread((Graph) this.copy(), weights, 2 * (weights.length / 4), 3 * (weights.length / 4));
+            DjikstraThread thread4 = new DjikstraThread((Graph) this.copy(), weights, 3 * (weights.length / 4), (weights.length));
             thread1.start();
             thread2.start();
             thread3.start();
             thread4.start();
-            while (thread1.isAlive() || thread2.isAlive() || thread3.isAlive() || thread4.isAlive()) {continue;}
-        }
-        else {
+            while (thread1.isAlive() || thread2.isAlive() || thread3.isAlive() || thread4.isAlive()) {
+                continue;
+            }
+        } else {
             for (int i = 0; i < weights.length; i++) {
-    			weights[i] = utils.Dijkstra(graph, graph.getNode(i));
-    		}
+                weights[i] = utils.Dijkstra(graph, graph.getNode(i));
+            }
         }
         double min = Double.MAX_VALUE;
         int index = -1;
@@ -104,7 +106,13 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
-        String path = file.contains("/") ? file : "saved_graphs/" + file;
+        String path;
+        if (!file.contains("/")){
+            path = "saved_graphs/" + file;
+            jsonParser.validateFilePath(path);
+        } else {
+            path = file;
+        }
         SaveGraph sGraph = new SaveGraph(graph);
         return sGraph.save(path);
     }

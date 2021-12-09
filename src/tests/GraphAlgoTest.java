@@ -90,21 +90,21 @@ class GraphAlgoTest {
     }
 
 
-//    @Test
-//    void save() {
-//        for (int i = 0; i < algo.length; ++i) {
-//            boolean flag = algo[i].save("G" + i + "_save.json");
-//            assert (flag);
-//        }
-//    }
+    @Test
+    void save() {
+        for (int i = 0; i < algo.length; ++i) {
+            boolean flag = algo[i].save("G" + i + "_save.json");
+            assert (flag);
+        }
+    }
 
-//    @Test
-//    void load() {
-//        for (int i = 0; i < algo.length; ++i) {
-//            String file = "saved_graphs/G" + i + "_save.json";
-//            algo[i].load(file);
-//        }
-//    }
+    @Test
+    void load() {
+        for (int i = 0; i < algo.length; ++i) {
+            String file = "saved_graphs/G" + i + "_save.json";
+            algo[i].load(file);
+        }
+    }
 
     @Test
     void center() {
