@@ -125,12 +125,18 @@ public class Menu_UI implements ActionListener {
         	temp.setVisible(true);
         }
 
-        if (source == e3) // remove node
-            System.out.println("TEST");
+        if (source == e3) { // remove node
+        	temp.setTitle("Remove Node");
+        	temp.removeNode();
+        	temp.setVisible(true);
+        	
+        }
 
-        if (source == e4) // remove edge
-            System.out.println("TEST");
-
+        if (source == e4) { // remove edge
+        	temp.setTitle("Remove Edge");
+    		temp.removeEdge();
+    		temp.setVisible(true);
+        }
 
         if (source == o1) { // connectivity
             temp.setTitle("Is Connected");

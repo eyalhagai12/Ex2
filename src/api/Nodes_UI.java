@@ -72,7 +72,7 @@ public class Nodes_UI extends JComponent {
             double y = node.getLocation().y() - Ymin;
 
             int x_coord = (int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH);
-            int y_coord = (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8) + 5;
+            int y_coord = (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8) + 10;
 
             g2d.setPaint(Color.RED);
             g2d.fillOval(x_coord, y_coord, 20, 20);
