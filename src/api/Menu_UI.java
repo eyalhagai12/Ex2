@@ -149,8 +149,16 @@ public class Menu_UI implements ActionListener {
 
         if (source == o3) { // center
             temp.setTitle("Center");
-            JLabel l = new JLabel("Center is: " + algo.center().getKey());
-            l.setBounds(110, 60, 100, 30);
+            NodeData center = algo.center();
+            JLabel l;
+            if(center!=null) {
+            	l = new JLabel("Center is: " + center.getKey());
+            	l.setBounds(110, 60, 200, 30);
+            }
+            else {
+            	l = new JLabel("There is no center");
+            	l.setBounds(90, 60, 200, 30);
+            }
             temp.add(l);
             temp.setVisible(true);
         }

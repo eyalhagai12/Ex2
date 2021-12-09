@@ -206,8 +206,9 @@ public class utils {
     }
 
     public static double Dijkstra(DirectedWeightedGraph g, NodeData source) {
-        for (int i = 0; i < g.nodeSize(); i++) {
-            g.getNode(i).setWeight(Double.MAX_VALUE);
+        Iterator<NodeData> iterator = g.nodeIter();
+    	for (; iterator.hasNext();) {
+            iterator.next().setWeight(Double.MAX_VALUE);
         }
         PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
             @Override

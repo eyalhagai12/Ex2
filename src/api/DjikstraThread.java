@@ -1,5 +1,7 @@
 package api;
 
+import java.util.Iterator;
+
 public class DjikstraThread extends Thread{
 
 	private Graph graph;
@@ -16,8 +18,16 @@ public class DjikstraThread extends Thread{
 	
 	@Override
 	public void run() {
-		for (int i = startIndex; i < endIndex; i++) {
-			weights[i] = utils.Dijkstra(graph, graph.getNode(i));
+		Iterator<NodeData> iterator = graph.nodeIter();
+		for (int i = startIndex; i > 0; i--) {
+			iterator.next();
 		}
+		for (int i = startIndex; i < endIndex; i++) {
+			weights[i] = utils.Dijkstra(graph, iterator.next());
+		}
+		
+//		for (int i = startIndex; i < endIndex; i++) {
+//			weights[i] = utils.Dijkstra(graph, graph.getNode(i));
+//		}
 	}
 }
