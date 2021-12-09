@@ -210,7 +210,28 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
-        return ((Node) nodes.get(node_id)).getOut_edges().values().iterator();
+    	Iterator<EdgeData> iterator = new Iterator<EdgeData>() {
+    		private Iterator<EdgeData> iterator = ((Node)nodes.get(node_id)).getOut_edges().values().iterator();
+    		private int modeC = mc;
+    		@Override
+    		public void remove() {
+    			if(modeC!=mc) throw new RuntimeException();
+    			EdgeData edge = iterator.next();
+    			removeEdge(edge.getSrc(),edge.getDest());
+    			modeC++;
+    			iterator.remove();
+    		}
+			@Override
+			public boolean hasNext() {
+				if(modeC!=mc) throw new RuntimeException();
+				return iterator.hasNext();
+			}
+			@Override
+			public EdgeData next() {
+				if(modeC!=mc) throw new RuntimeException();
+				return iterator.next();
+			}};
+			return iterator;
     }
 
     @Override
