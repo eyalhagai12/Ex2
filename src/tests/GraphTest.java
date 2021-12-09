@@ -14,7 +14,7 @@ class GraphTest {
 
     @BeforeEach
     void init(){
-       g = new Graph("data/G1.json");
+       g = new Graph("data/G3.json");
     }
 
     @Test
