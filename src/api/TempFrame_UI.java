@@ -19,8 +19,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
 
     JTextField tf;
     JLabel l;
-    JButton b1; JButton b3;
-    JButton b2; JButton b4;
+    JButton b1; JButton b3; JButton b5;
+    JButton b2; JButton b4; JButton b6;
     String path;
 
     public TempFrame_UI(Graph_UI g) {
@@ -100,6 +100,40 @@ public class TempFrame_UI extends JFrame implements ActionListener {
         add(l);
 
         b4.addActionListener(this);
+    }
+    
+    public void removeNode() {
+    	tf = new JTextField();
+        tf.setBounds(105, 80, 100, 20);
+
+        b5 = new JButton("Remove edge");
+        b5.setBounds(100, 110, 110, 30);
+
+        l = new JLabel("<html>Enter node's id that you want to delete:</html>");
+        l.setBounds(10, 25, 300, 45);
+
+        add(b5);
+        add(tf);
+        add(l);
+
+        b5.addActionListener(this);
+    }
+    
+    public void removeEdge() {
+    	tf = new JTextField();
+        tf.setBounds(105, 80, 100, 20);
+
+        b6 = new JButton("Remove edge");
+        b6.setBounds(100, 110, 110, 30);
+
+        l = new JLabel("<html>Enter edge's source and destination </br>that you want to delete:</html>");
+        l.setBounds(10, 25, 300, 45);
+
+        add(b6);
+        add(tf);
+        add(l);
+
+        b6.addActionListener(this);
     }
 
 
@@ -183,6 +217,33 @@ public class TempFrame_UI extends JFrame implements ActionListener {
         	double weight = Double.parseDouble(tf.getText().split(",")[2]);
         	Graph g = (Graph)frame.getAlgo().copy();
         	g.connect(src,dst,weight);
+        	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
+        	a.init(g);
+        	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        	new Graph_UI(a);
+        }
+        
+        if(e.getSource()==b5) { // remove node
+        	int id = Integer.parseInt(tf.getText().split(",")[0]);
+        	DirectedWeightedGraph g = frame.getAlgo().copy();
+        	g.removeNode(id);
+        	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
+        	a.init(g);
+        	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        	new Graph_UI(a);
+        }
+        
+        if(e.getSource()==b6) { // remove edge
+        	int src = Integer.parseInt(tf.getText().split(",")[0]);
+        	int dst = Integer.parseInt(tf.getText().split(",")[1]);
+        	Graph g = (Graph)frame.getAlgo().copy();
+        	g.removeEdge(src,dst);
         	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
         	a.init(g);
         	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
