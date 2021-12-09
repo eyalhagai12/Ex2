@@ -1,6 +1,7 @@
 package api;
 
 import java.util.HashMap;
+import api.Edge;
 
 public class Node implements NodeData {
     private final int id;

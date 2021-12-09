@@ -17,28 +17,28 @@ class GraphAlgoTest {
 
     @BeforeEach
     void init_test() {
-        algo = new GraphAlgo[4];
-        graphs = new Graph[4];
+        algo = new GraphAlgo[6];
+        graphs = new Graph[6];
         algo[0] = new GraphAlgo();
         algo[1] = new GraphAlgo();
         algo[2] = new GraphAlgo();
         algo[3] = new GraphAlgo();
-//        algo[4] = new GraphAlgo();
-//        algo[5] = new GraphAlgo();
+        algo[4] = new GraphAlgo();
+        algo[5] = new GraphAlgo();
 
         graphs[0] = new Graph("data/G1.json");
         graphs[1] = new Graph("data/G2.json");
         graphs[2] = new Graph("data/G3.json");
         graphs[3] = new Graph("data/CustomGraph.json");
-//        graphs[4] = new Graph("data/1000Nodes.json");
-//        graphs[5] = new Graph("data/10000Nodes.json");
+        graphs[4] = new Graph("data/1000Nodes.json");
+        graphs[5] = new Graph("data/10000Nodes.json");
 
         algo[0].init(graphs[0]);
         algo[1].init(graphs[1]);
         algo[2].init(graphs[2]);
         algo[3].init(graphs[3]);
-//        algo[4].init(graphs[4]);
-//        algo[5].init(graphs[5]);
+        algo[4].init(graphs[4]);
+        algo[5].init(graphs[5]);
     }
 
     @Test
@@ -47,11 +47,15 @@ class GraphAlgoTest {
         LinkedList<NodeData> list2 = utils.TopologicalSort(graphs[1]);
         LinkedList<NodeData> list3 = utils.TopologicalSort(graphs[2]);
         LinkedList<NodeData> list4 = utils.TopologicalSort(graphs[3]);
+        LinkedList<NodeData> list5 = utils.TopologicalSort(graphs[4]);
+        LinkedList<NodeData> list6 = utils.TopologicalSort(graphs[5]);
 
         assert (isSorted(list1));
         assert (isSorted(list2));
         assert (isSorted(list3));
         assert (isSorted(list4));
+        assert (isSorted(list5));
+        assert (isSorted(list6));
     }
 
     boolean isSorted(LinkedList<NodeData> list) {
@@ -75,11 +79,13 @@ class GraphAlgoTest {
     }
 
     @Test
-    void isConnected() {
+     void isConnected() {
         assert (algo[0].isConnected());
         assert (algo[1].isConnected());
         assert (algo[2].isConnected());
         assert (!algo[3].isConnected());
+        assert (algo[4].isConnected());
+        assert (algo[5].isConnected());
     }
 
     @Test
@@ -112,21 +118,21 @@ class GraphAlgoTest {
         NodeData test2 = algo[1].center();
         NodeData test3 = algo[2].center();
         NodeData test4 = algo[3].center();
-//        NodeData test5 = algo[4].center();
-//        NodeData test6 = algo[5].center();
+        NodeData test5 = algo[4].center();
+        NodeData test6 = algo[5].center();
 
         assertTrue(test1 != null);
         assertTrue(test2 != null);
         assertTrue(test3 != null);
         assertFalse(test4 != null);
-//        assertTrue(test5 != null);
-//        assertTrue(test6 != null);
+        assertTrue(test5 != null);
+        assertTrue(test6 != null);
         
         System.out.println(test1.getKey());
         System.out.println(test2.getKey());
         System.out.println(test3.getKey());
-//        System.out.println(test5.getKey());
-//        System.out.println(test6.getKey());
+        System.out.println(test5.getKey());
+        System.out.println(test6.getKey());
     }
 
     @Test

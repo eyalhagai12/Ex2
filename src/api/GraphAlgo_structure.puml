@@ -1,0 +1,360 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "api.GraphAlgo"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_96794 { 
+   	label=api
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Edge96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Edge</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dest: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   src: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   w: double [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ transposeEdge()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Edges_UI96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Edges_UI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   HEIGHT: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   WIDTH: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   Xmax: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   Xmin: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   Ymax: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   Ymin: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   algo: DirectedWeightedGraphAlgorithms [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   graph: DirectedWeightedGraph [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   graph_ui: Graph_UI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   iterator: Iterator&lt;EdgeData&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ paintComponent(g: Graphics)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateSizes()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GeoPoint96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GeoPoint</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   x: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   y: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   z: double [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ distance(g: GeoLocation): double</TD></TR>
+<TR><TD ALIGN="LEFT" >+ x(): double</TD></TR>
+<TR><TD ALIGN="LEFT" >+ y(): double</TD></TR>
+<TR><TD ALIGN="LEFT" >+ z(): double</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Graph96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Graph</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   edges: HashMap&lt;Integer, EdgeData&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mc: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nodes: HashMap&lt;Integer, NodeData&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addNode(n: NodeData)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ connect(src: int, dest: int, w: double)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ edgeIter(): Iterator&lt;EdgeData&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ edgeIter(node_id: int): Iterator&lt;EdgeData&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ edgeSize(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getEdge(src: int, dest: int): EdgeData</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getNode(key: int): NodeData</TD></TR>
+<TR><TD ALIGN="LEFT" >+ nodeIter(): Iterator&lt;NodeData&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ nodeSize(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeEdge(src: int, dest: int): EdgeData</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeNode(key: int): NodeData</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GraphAlgo96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GraphAlgo</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   graph: Graph [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ center(): NodeData</TD></TR>
+<TR><TD ALIGN="LEFT" >+ copy(): DirectedWeightedGraph</TD></TR>
+<TR><TD ALIGN="LEFT" >+ init(g: DirectedWeightedGraph)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ load(file: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ save(file: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shortestPath(src: int, dest: int): List&lt;NodeData&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shortestPathDist(src: int, dest: int): double</TD></TR>
+<TR><TD ALIGN="LEFT" >+ tsp(cities: List&lt;NodeData&gt;): List&lt;NodeData&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Graph_UI96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Graph_UI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   algo: DirectedWeightedGraphAlgorithms [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   edges_ui: Edges_UI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   graph: DirectedWeightedGraph [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   menu: Menu_UI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nodes_ui: Nodes_UI [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Menu_UI96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Menu_UI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   algo: DirectedWeightedGraphAlgorithms [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   e1: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   e2: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   e3: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   e4: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   edges: JMenu [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   edit: JMenu [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   f1: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   f2: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   file: JMenu [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   frame: Graph_UI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mb: JMenuBar [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   nodes: JMenu [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   o1: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   o2: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   o3: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   o4: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   o5: JMenuItem [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   operations: JMenu [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPerformed(e: ActionEvent)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Node96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Node</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   finishTime: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   in_edges: HashMap&lt;Integer, EdgeData&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   info: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   location: GeoPoint [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   out_edges: HashMap&lt;Integer, EdgeData&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pos: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   previousNode: NodeData [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tag: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   weight: double [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addEdgeIn(edge: EdgeData)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addEdgeOut(edge: EdgeData)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deleteEdgeFrom(src: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deleteEdgeTo(dest: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getEdgeTo(dest: int): EdgeData</TD></TR>
+<TR><TD ALIGN="LEFT" >+ inSize(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initEdges()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ outSize(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ parsePosition()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ transposeNode()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Nodes_UI96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Nodes_UI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   HEIGHT: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   WIDTH: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   algo: DirectedWeightedGraphAlgorithms [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   graph: DirectedWeightedGraph [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   graph_ui: Graph_UI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   iterator: Iterator&lt;NodeData&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- getCoordBounds()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ paintComponent(g: Graphics)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateSizes()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TempFrame_UI96794[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TempFrame_UI</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   b1: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   b2: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   b3: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   b4: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   b5: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   b6: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   frame: Graph_UI [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   l: JLabel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   path: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tf: JTextField [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actionPerformed(e: ActionEvent)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addEdge()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addNode()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeEdge()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeNode()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shortestPath()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ tsp()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+Edges_UI96794 -> GraphAlgo96794[label="algo
+[0..1]"];
+Edges_UI96794 -> Graph_UI96794[label="graph_ui
+[0..1]"];
+Graph96794 -> Edge96794[arrowhead=none, arrowtail=empty, dir=both];
+Graph96794 -> Node96794[arrowhead=none, arrowtail=empty, dir=both];
+GraphAlgo96794 -> Graph96794[label="graph
+[0..1]"];
+Graph_UI96794 -> Edges_UI96794[label="edges_ui
+[0..1]"];
+Graph_UI96794 -> GraphAlgo96794[label="algo
+[0..1]"];
+Graph_UI96794 -> Menu_UI96794[label="menu
+[0..1]"];
+Graph_UI96794 -> Nodes_UI96794[label="nodes_ui
+[0..1]"];
+Menu_UI96794 -> GraphAlgo96794[label="algo
+[0..1]"];
+Menu_UI96794 -> Graph_UI96794[label="frame
+[0..1]"];
+Node96794 -> GeoPoint96794[label="location
+[0..1]"];
+Nodes_UI96794 -> GraphAlgo96794[label="algo
+[0..1]"];
+Nodes_UI96794 -> Graph_UI96794[label="graph_ui
+[0..1]"];
+TempFrame_UI96794 -> Graph_UI96794[label="frame
+[0..1]"];
+    
+}
+@enduml

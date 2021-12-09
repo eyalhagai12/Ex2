@@ -3,6 +3,7 @@ package api;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import api.Edge;
 
 public class Graph implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> nodes;

@@ -207,7 +207,7 @@ public class utils {
 
     public static double Dijkstra(DirectedWeightedGraph g, NodeData source) {
         Iterator<NodeData> iterator = g.nodeIter();
-    	for (; iterator.hasNext();) {
+        for (; iterator.hasNext(); ) {
             iterator.next().setWeight(Double.MAX_VALUE);
         }
         PriorityQueue<NodeData> minHeap = new PriorityQueue<NodeData>(new Comparator<NodeData>() {
@@ -392,16 +392,16 @@ public class utils {
 
         result = result.stream().distinct().collect(Collectors.toList());
 
-        if (result.size() > 0) {
-            int start = result.get(result.size() - 1).getKey();
-            int end = result.get(0).getKey();
-
-            List<NodeData> pathBack = BFSShortestPath(graph, start, end);
-
-            for (int i = 1; i < pathBack.size(); ++i){
-                result.add(pathBack.get(i));
-            }
-        }
+//        if (result.size() > 0) {
+//            int start = result.get(result.size() - 1).getKey();
+//            int end = result.get(0).getKey();
+//
+//            List<NodeData> pathBack = BFSShortestPath(graph, start, end);
+//
+//            for (int i = 1; i < pathBack.size(); ++i) {
+//                result.add(pathBack.get(i));
+//            }
+//        }
 
         return result;
     }
