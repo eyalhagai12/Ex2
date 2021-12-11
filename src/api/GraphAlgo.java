@@ -1,6 +1,5 @@
 package api;
 
-import java.io.File;
 import java.util.*;
 
 public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
@@ -11,6 +10,10 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public void init(DirectedWeightedGraph g) {
+        // init graph
+        graph = new Graph();
+
+        // add all nodes
         Iterator<NodeData> nodeIter = g.nodeIter();
         while (nodeIter.hasNext()) {
             NodeData origin = nodeIter.next();
@@ -21,12 +24,11 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             node.setWeight(0);
             node.setLocation(origin.getLocation());
             node.setLocation(g.getNode(node.getKey()).getLocation());
-
             graph.addNode(node);
         }
 
+        // add all edges
         Iterator<EdgeData> edgeIter = g.edgeIter();
-        int i = 0;
         while (edgeIter.hasNext()) {
             EdgeData origin = edgeIter.next();
 
