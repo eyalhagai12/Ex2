@@ -4,19 +4,19 @@ import java.util.HashMap;
 import api.Edge;
 
 public class Node implements NodeData {
-    private final int id;
+    private int id;
     private GeoPoint location;
-    private double weight = 0;
+    private double weight;
     private HashMap<Integer, EdgeData> out_edges;
     private HashMap<Integer, EdgeData> in_edges;
     private String pos;
     private int tag;
     private int finishTime;
-    private NodeData previousNode = null;
+    private NodeData previousNode;
     private String info;
 
     /**
-     * Empty constructor
+     * id constructor
      */
     public Node(int id) {
         this.id = id;
@@ -177,6 +177,15 @@ public class Node implements NodeData {
     public int inSize() {
         return in_edges.size();
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     @Override
     public int getKey() {

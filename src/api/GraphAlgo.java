@@ -11,7 +11,28 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public void init(DirectedWeightedGraph g) {
-        this.graph = (Graph) g;
+        Iterator<NodeData> nodeIter = g.nodeIter();
+        while (nodeIter.hasNext()) {
+            NodeData origin = nodeIter.next();
+            Node node = (Node) origin;
+
+            // transform to our implementation
+            node.setId(origin.getKey());
+            node.setWeight(0);
+            node.setLocation(origin.getLocation());
+            node.setLocation(g.getNode(node.getKey()).getLocation());
+
+            graph.addNode(node);
+        }
+
+        Iterator<EdgeData> edgeIter = g.edgeIter();
+        int i = 0;
+        while (edgeIter.hasNext()) {
+            EdgeData origin = edgeIter.next();
+
+            // transform to our implementation
+            graph.connect(origin.getSrc(), origin.getDest(), origin.getWeight());
+        }
     }
 
     @Override
@@ -68,8 +89,8 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
         if (!isConnected()) return null;
         // reset tags of nodes
         Iterator<NodeData> iter = graph.nodeIter();
-        for (;iter.hasNext();) {
-        	NodeData n = iter.next();
+        for (; iter.hasNext(); ) {
+            NodeData n = iter.next();
             n.setTag(0);
         }
         double[] weights = new double[graph.nodeSize()];
@@ -85,13 +106,14 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             while (thread1.isAlive() || thread2.isAlive() || thread3.isAlive() || thread4.isAlive()) {
                 continue;
             }
-            thread1.interrupt(); thread2.interrupt();
-            thread3.interrupt(); thread4.interrupt();
-        } 
-        else {
-        	iter = graph.nodeIter();
+            thread1.interrupt();
+            thread2.interrupt();
+            thread3.interrupt();
+            thread4.interrupt();
+        } else {
+            iter = graph.nodeIter();
             for (int i = 0; i < weights.length; i++) {
-            	NodeData n = iter.next();
+                NodeData n = iter.next();
                 weights[i] = utils.Dijkstra(graph, n);
             }
         }
@@ -114,7 +136,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public boolean save(String file) {
         String path;
-        if (!file.contains("/")){
+        if (!file.contains("/")) {
             path = "saved_graphs/" + file;
             jsonParser.validateFilePath(path);
         } else {

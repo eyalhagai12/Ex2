@@ -1,8 +1,10 @@
 package api;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import api.Edge;
 
 public class Graph implements DirectedWeightedGraph {
@@ -25,8 +27,16 @@ public class Graph implements DirectedWeightedGraph {
      * @param path Path to the file
      */
     public Graph(String path) {
-        if (!path.contains("/")){
-            path = "saved_graphs/" + path;
+        if (!path.contains("/")) {
+
+            // check if the file is at the "data" directory
+            if (new File("data", path).exists()) {
+                path = "data/" + path;
+            } else if (new File("saved_graphs/", path).exists()) { //check if the file is in the "saved_graphs" directory
+                path = "saved_graphs/" + path;
+            }
+
+
             jsonParser.validateFilePath(path);
         }
 
