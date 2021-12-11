@@ -24,8 +24,8 @@ public class Graph_UI extends JFrame {
     private final Edges_UI edges_ui;
     private Menu_UI menu;
 
-    public static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
-    public static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
+    public static int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
+    public static int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
 
     public Graph_UI(DirectedWeightedGraphAlgorithms algo) {
         this.setTitle("GUI");
@@ -42,11 +42,11 @@ public class Graph_UI extends JFrame {
         menu = new Menu_UI(this);
 
         this.add(nodes_ui, BorderLayout.CENTER);
-        setVisible(true);
+        //setVisible(true);
         this.add(edges_ui, BorderLayout.CENTER);
-        setVisible(true);
+        //setVisible(true);
         setJMenuBar(menu.getMenuBar());
-        setVisible(true);
+        //setVisible(true);
         
         setResizable(true);
         
@@ -59,11 +59,23 @@ public class Graph_UI extends JFrame {
 
     public DirectedWeightedGraphAlgorithms getAlgo() {return algo;}
     
+    public void resetFrame(int width, int height) {
+    	WIDTH = width;
+    	HEIGHT = height;
+    	setSize(WIDTH,HEIGHT);
+    	setLocationRelativeTo(null);
+    	if(WIDTH == Toolkit.getDefaultToolkit().getScreenSize().getWidth() || HEIGHT == Toolkit.getDefaultToolkit().getScreenSize().getHeight()) {
+    		setExtendedState(JFrame.MAXIMIZED_BOTH);
+    	}
+    	setVisible(true);
+    }
+
     public static void main(String[] args) {
         Graph g = new Graph("data/G1.json");
         GraphAlgo algo = new GraphAlgo();
         algo.init(g);
 
         Graph_UI test = new Graph_UI(algo);
+        test.setVisible(true);
     }
 }

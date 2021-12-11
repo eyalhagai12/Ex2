@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -22,10 +23,12 @@ public class TempFrame_UI extends JFrame implements ActionListener {
     JButton b1; JButton b3; JButton b5;
     JButton b2; JButton b4; JButton b6;
     String path;
+    Dimension frameSize;
 
     public TempFrame_UI(Graph_UI g) {
 
         frame = g;
+        frameSize = frame.getContentPane().getSize();
 
         setSize(300, 200);
         setLocationRelativeTo(frame);
@@ -231,7 +234,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
             	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	new Graph_UI(a);
+            	Graph_UI test = new Graph_UI(a);
+            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
         	}
         }
         
@@ -254,7 +258,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
             	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	new Graph_UI(a);
+            	Graph_UI test = new Graph_UI(a);
+            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
         	}
         }
         
@@ -275,7 +280,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
             	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	new Graph_UI(a);
+            	Graph_UI test = new Graph_UI(a);
+            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
         	}
         }
         
@@ -297,7 +303,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
             	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	new Graph_UI(a);
+            	Graph_UI test = new Graph_UI(a);
+            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
             }
         }
     }

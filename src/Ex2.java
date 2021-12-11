@@ -51,5 +51,6 @@ public class Ex2 {
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGraphAlgo(json_file);
         Graph_UI ui = new Graph_UI(alg);
+        ui.setVisible(true);
     }
 }
