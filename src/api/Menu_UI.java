@@ -104,7 +104,7 @@ public class Menu_UI implements ActionListener {
         if (source == f2) { // load
         	// codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
         	JFileChooser fileChooser = new JFileChooser();
-        	fileChooser.setDialogTitle("Save file");   
+        	fileChooser.setDialogTitle("Load file");   
         	 
         	int userSelection = fileChooser.showOpenDialog(frame);
         	 
