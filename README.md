@@ -19,7 +19,7 @@ it also supports saving and loading graphs from and to json files
 
 ### UML
 
-It was too big, so we put it in the end of this file. [click here to go to uml](#UML image)
+It was too big, so we put it in the end of this file. [click here to go to uml](#uml-image)
 
 
 # Getting started
