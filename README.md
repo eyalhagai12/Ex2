@@ -91,12 +91,22 @@ you can also add and remove vertices and edges simply with the GUI
 * **Topological sort**: https://en.wikipedia.org/wiki/Topological_sorting
 * **BFS**: https://en.wikipedia.org/wiki/Breadth-first_search
 
+# Runtimes  
+The graphs that were tested in this test case are: 
+* G1.json 
+* G2.json 
+* G3.json 
+* CustomGraph.json (variation of G1)
+* 1,000Nodes.json (custom graph, could not upload to this repo because it was too big)
+* 10,000Nodes.json (custom graph, could not upload to this repo because it was too big)  
+  
+All graphs were tested at once. Runtime results are for the given graphs in the same order  
+Each test was executed immediately after the previous test was done.  
+**Results:**  
+<p align="center">
+<img src="https://user-images.githubusercontent.com/77681248/145725865-b31c6f95-3b7e-405e-8e3f-6bbaba471fa0.jpg">
+</p>  
+
 # UML image
 
 ![](hugeUML.png)
-
-
-
-
-
-
