@@ -221,8 +221,6 @@ public class TempFrame_UI extends JFrame implements ActionListener {
         if (e.getSource() == b3) { // add node
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-//            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
 
         if (e.getSource() == b4) { // add edge

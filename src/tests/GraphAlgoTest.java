@@ -79,7 +79,7 @@ class GraphAlgoTest {
     }
 
     @Test
-     void isConnected() {
+    void isConnected() {
         assert (algo[0].isConnected());
         assert (algo[1].isConnected());
         assert (algo[2].isConnected());
@@ -127,7 +127,7 @@ class GraphAlgoTest {
         assertFalse(test4 != null);
         assertTrue(test5 != null);
         assertTrue(test6 != null);
-        
+
         System.out.println(test1.getKey());
         System.out.println(test2.getKey());
         System.out.println(test3.getKey());
@@ -136,10 +136,10 @@ class GraphAlgoTest {
     }
 
     @Test
-    void tsp() { // is working fine now to try and make it a little more efficient
+    void tsp() {
         List<NodeData> nodes;
 
-        int[] indexes = new int[]{0, 10, 12, 15};
+        int[] indexes = new int[]{0, 10, 12, 15, 26};
         System.out.println("Tour should pass through " + Arrays.toString(indexes));
 
         for (int i = 0; i < algo.length; ++i) {
