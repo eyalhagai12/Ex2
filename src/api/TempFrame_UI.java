@@ -143,7 +143,7 @@ public class TempFrame_UI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) { // shortest path
-            if (!tf.getText().contains(",") || tf.getText().split(",").length != 3 || !validate(tf.getText().split(","))) {
+            if (!tf.getText().contains(",") || tf.getText().split(",").length != 2 || !validate(tf.getText().split(","))) {
                 setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
                 l.setText("<html>Invalid Input. Enter: key1,key2</html>");
