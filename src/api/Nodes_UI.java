@@ -13,6 +13,7 @@ public class Nodes_UI extends JComponent {
     private final DirectedWeightedGraph graph;
     private Iterator<NodeData> iterator;
     private final Graph_UI graph_ui;
+
     private int HEIGHT;
     private int WIDTH;
 
@@ -71,14 +72,37 @@ public class Nodes_UI extends JComponent {
             double x = node.getLocation().x() - Xmin;
             double y = node.getLocation().y() - Ymin;
 
-            int x_coord = (int) ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH);
-            int y_coord = (int) ((y / (Ymax - Ymin)) * HEIGHT * 0.8) + 10;
+            double x_coord = ((x / (Xmax - Xmin)) * WIDTH * 0.8) + (0.08 * WIDTH);
+            double y_coord = ((y / (Ymax - Ymin)) * HEIGHT * 0.8) + 5;
+
+//            double x_test = (((x_coord - (0.08 * WIDTH)) * (Xmax - Xmin)) / (WIDTH * 0.8));
+//            System.out.println("--------------------------");
+//            System.out.println("x = " + x);
+//            System.out.println("x test = " + x_test);
+//            System.out.println(x_test == x);
+
 
             g2d.setPaint(Color.RED);
-            g2d.fillOval(x_coord, y_coord, 20, 20);
+            g2d.fillOval((int) x_coord, (int) y_coord, 20, 20);
             g2d.setPaint(Color.BLUE);
-            g2d.drawString("" + node.getKey(), x_coord, y_coord);
+            g2d.drawString("" + node.getKey(), (int) x_coord, (int) y_coord);
         }
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public void setHEIGHT(int HEIGHT) {
+        this.HEIGHT = HEIGHT;
+    }
+
+    public int getWIDTH() {
+        return WIDTH;
+    }
+
+    public void setWIDTH(int WIDTH) {
+        this.WIDTH = WIDTH;
     }
 
 }

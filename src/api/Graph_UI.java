@@ -1,7 +1,6 @@
 package api;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -13,8 +12,6 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Graph_UI extends JFrame {
 
@@ -24,6 +21,8 @@ public class Graph_UI extends JFrame {
     private final Edges_UI edges_ui;
     private Menu_UI menu;
 
+    private static boolean flag = true;
+    public static int nodeCounter = 0;
     public static int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
     public static int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
 
@@ -37,9 +36,15 @@ public class Graph_UI extends JFrame {
         this.algo = algo;
         graph = algo.getGraph();
 
+        if (flag) {
+            nodeCounter = graph.nodeSize();
+            flag = false;
+        }
+
         this.nodes_ui = new Nodes_UI(this.algo, this);
         this.edges_ui = new Edges_UI(this.algo, this);
         menu = new Menu_UI(this);
+        addMouseListener(menu);
 
         this.add(nodes_ui, BorderLayout.CENTER);
         //setVisible(true);
@@ -49,6 +54,7 @@ public class Graph_UI extends JFrame {
         //setVisible(true);
         
         setResizable(true);
+
         
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {

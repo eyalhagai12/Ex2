@@ -1,6 +1,7 @@
 package api;
 
-import java.awt.event.ActionEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -11,22 +12,24 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.File;
 
-public class Menu_UI implements ActionListener {
+public class Menu_UI implements ActionListener, MouseListener {
 
     JMenuBar mb;
     JMenu file, edit, nodes, edges, operations;
     JMenuItem f1, f2, e1, e2, e3, e4, o1, o2, o3, o4, o5;
+    JLabel addNodeText;
 
     private DirectedWeightedGraphAlgorithms algo;
     private Graph_UI frame;
+    public boolean addNode;
 
     public Menu_UI(Graph_UI g) {
         frame = g;
         algo = g.getAlgo();
+        addNode = false;
+        addNodeText = new JLabel();
 
         mb = new JMenuBar();
         file = new JMenu("File");
@@ -74,9 +77,11 @@ public class Menu_UI implements ActionListener {
         o3.addActionListener(this);
         o4.addActionListener(this);
 
+
         mb.add(file);
         mb.add(edit);
         mb.add(operations);
+        mb.add(addNodeText);
     }
 
     public JMenuBar getMenuBar() {
@@ -89,63 +94,64 @@ public class Menu_UI implements ActionListener {
         TempFrame_UI temp = new TempFrame_UI(frame);
 
         if (source == f1) { // save
-        	// codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
-        	JFileChooser fileChooser = new JFileChooser();
-        	fileChooser.setDialogTitle("Save file");   
-        	 
-        	int userSelection = fileChooser.showSaveDialog(frame);
-        	 
-        	if (userSelection == JFileChooser.APPROVE_OPTION) {
-        	    File fileToSave = fileChooser.getSelectedFile();
-        	    frame.getAlgo().save(fileToSave.getAbsolutePath());
-        	    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-        	}
+            // codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Save file");
+
+            int userSelection = fileChooser.showSaveDialog(frame);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                frame.getAlgo().save(fileToSave.getAbsolutePath());
+                System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+            }
         }
         if (source == f2) { // load
-        	// codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
-        	JFileChooser fileChooser = new JFileChooser();
-        	fileChooser.setDialogTitle("Load file");   
-        	 
-        	int userSelection = fileChooser.showOpenDialog(frame);
-        	 
-        	if (userSelection == JFileChooser.APPROVE_OPTION) {
-        	    File fileToLoad = fileChooser.getSelectedFile();
-        	    frame.getAlgo().load(fileToLoad.getAbsolutePath());
-        	    System.out.println("Load file: " + fileToLoad.getAbsolutePath());
-        	    
-        	    DirectedWeightedGraphAlgorithms a = frame.getAlgo();
-        	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	new Graph_UI(a);
-        	}
+            // codejava.net/java-se/swing/show-save-file-dialog-using-jfilechooser
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Load file");
+
+            int userSelection = fileChooser.showOpenDialog(frame);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToLoad = fileChooser.getSelectedFile();
+                frame.getAlgo().load(fileToLoad.getAbsolutePath());
+                System.out.println("Load file: " + fileToLoad.getAbsolutePath());
+
+                DirectedWeightedGraphAlgorithms a = frame.getAlgo();
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                new Graph_UI(a);
+            }
         }
 
 
         if (source == e1) { // add node
-        	temp.setTitle("Add Node");
-        	temp.addNode();
-        	temp.setVisible(true);
+            addNode = true;
+            temp.setTitle("Add node");
+            temp.addNode();
+            temp.setVisible(true);
         }
-        
+
 
         if (source == e2) { // add edge
-        
-        	temp.setTitle("Add Edge");
-        	temp.addEdge();
-        	temp.setVisible(true);
+
+            temp.setTitle("Add Edge");
+            temp.addEdge();
+            temp.setVisible(true);
         }
 
         if (source == e3) { // remove node
-        	temp.setTitle("Remove Node");
-        	temp.removeNode();
-        	temp.setVisible(true);
-        	
+            temp.setTitle("Remove Node");
+            temp.removeNode();
+            temp.setVisible(true);
+
         }
 
         if (source == e4) { // remove edge
-        	temp.setTitle("Remove Edge");
-    		temp.removeEdge();
-    		temp.setVisible(true);
+            temp.setTitle("Remove Edge");
+            temp.removeEdge();
+            temp.setVisible(true);
         }
 
         if (source == o1) { // connectivity
@@ -167,22 +173,71 @@ public class Menu_UI implements ActionListener {
             temp.setTitle("Center");
             NodeData center = algo.center();
             JLabel l;
-            if(center!=null) {
-            	l = new JLabel("Center is: " + center.getKey());
-            	l.setBounds(110, 60, 200, 30);
-            }
-            else {
-            	l = new JLabel("There is no center");
-            	l.setBounds(90, 60, 200, 30);
+            if (center != null) {
+                l = new JLabel("Center is: " + center.getKey());
+                l.setBounds(110, 60, 200, 30);
+            } else {
+                l = new JLabel("There is no center");
+                l.setBounds(90, 60, 200, 30);
             }
             temp.add(l);
             temp.setVisible(true);
         }
 
         if (source == o4) {// tsp
-        	temp.setTitle("TSP");
+            temp.setTitle("TSP");
             temp.tsp();
             temp.setVisible(true);
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (addNode) {
+            // get mouse press position
+            PointerInfo pi = MouseInfo.getPointerInfo();
+            Point point = pi.getLocation();
+            Dimension frameSize = frame.getContentPane().getSize();
+
+            double x = e.getX();
+            double y = e.getY() - 60;
+
+            double transformedX = (((x - (0.08 * frame.getWidth())) * (Nodes_UI.Xmax - Nodes_UI.Xmin)) / (frame.getWidth() * 0.8));
+            transformedX = transformedX + Nodes_UI.Xmin;
+
+            double transformedY = (((y - 5) * (Nodes_UI.Ymax - Nodes_UI.Ymin)) / (frame.getHeight() * 0.8));
+            transformedY = transformedY + Nodes_UI.Ymin;
+            DirectedWeightedGraph graph = frame.getAlgo().getGraph();
+            GeoPoint newNodePoint = new GeoPoint(transformedX, transformedY, 0.0);
+            int id = Graph_UI.nodeCounter++;
+
+            Node newNode = new Node(id, newNodePoint);
+            graph.addNode(newNode);
+            frame.dispose();
+            Graph_UI test = new Graph_UI(algo);
+            test.resetFrame((int) frameSize.getWidth(), (int) frameSize.getHeight());
+            frame = test;
+            addNode = false;
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

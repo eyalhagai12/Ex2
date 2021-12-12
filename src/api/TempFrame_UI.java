@@ -20,8 +20,12 @@ public class TempFrame_UI extends JFrame implements ActionListener {
 
     JTextField tf;
     JLabel l;
-    JButton b1; JButton b3; JButton b5;
-    JButton b2; JButton b4; JButton b6;
+    JButton b1;
+    JButton b3;
+    JButton b5;
+    JButton b2;
+    JButton b4;
+    JButton b6;
     String path;
     Dimension frameSize;
 
@@ -53,7 +57,7 @@ public class TempFrame_UI extends JFrame implements ActionListener {
 
         b1.addActionListener(this);
     }
-    
+
     public void tsp() {
         tf = new JTextField();
         tf.setBounds(105, 60, 100, 20);
@@ -70,26 +74,22 @@ public class TempFrame_UI extends JFrame implements ActionListener {
 
         b2.addActionListener(this);
     }
-    
-    public void addNode() {
-    	tf = new JTextField();
-        tf.setBounds(105, 60, 100, 20);
 
-        b3 = new JButton("Add node");
+    public void addNode() {
+        b3 = new JButton("OK!");
         b3.setBounds(100, 90, 110, 30);
 
-        l = new JLabel("<html>Enter node's id and coordinates as follows:</br> id,x,y</html>");
+        l = new JLabel("<html>Press on a location at the screen to add a new node</html>");
         l.setBounds(10, 25, 300, 30);
 
         add(b3);
-        add(tf);
         add(l);
 
         b3.addActionListener(this);
     }
-    
+
     public void addEdge() {
-    	tf = new JTextField();
+        tf = new JTextField();
         tf.setBounds(105, 80, 100, 20);
 
         b4 = new JButton("Add edge");
@@ -104,9 +104,9 @@ public class TempFrame_UI extends JFrame implements ActionListener {
 
         b4.addActionListener(this);
     }
-    
+
     public void removeNode() {
-    	tf = new JTextField();
+        tf = new JTextField();
         tf.setBounds(105, 80, 100, 20);
 
         b5 = new JButton("Remove edge");
@@ -121,9 +121,9 @@ public class TempFrame_UI extends JFrame implements ActionListener {
 
         b5.addActionListener(this);
     }
-    
+
     public void removeEdge() {
-    	tf = new JTextField();
+        tf = new JTextField();
         tf.setBounds(105, 80, 100, 20);
 
         b6 = new JButton("Remove");
@@ -143,14 +143,13 @@ public class TempFrame_UI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) { // shortest path
-        	if(!tf.getText().contains(",") || tf.getText().split(",").length!=3 || !validate(tf.getText().split(","))) {
-        		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	l.setText("<html>Invalid Input. Enter: key1,key2</html>");
-            	setVisible(true);
-        	}
-        	else {
-        		int src = Integer.parseInt(tf.getText().split(",")[0]);
+            if (!tf.getText().contains(",") || tf.getText().split(",").length != 3 || !validate(tf.getText().split(","))) {
+                setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                l.setText("<html>Invalid Input. Enter: key1,key2</html>");
+                setVisible(true);
+            } else {
+                int src = Integer.parseInt(tf.getText().split(",")[0]);
                 int dst = Integer.parseInt(tf.getText().split(",")[1]);
                 double dist = frame.getAlgo().shortestPathDist(src, dst);
                 path = "";
@@ -162,11 +161,14 @@ public class TempFrame_UI extends JFrame implements ActionListener {
                 }
                 dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 JFrame show = new TempFrame_UI(frame);
-                JTextArea x = new JTextArea(path+" | distance is: "+dist);
+                JTextArea x = new JTextArea(path + " | distance is: " + dist);
                 // code from https://stackoverflow.com/questions/26420428/how-to-word-wrap-text-in-jlabel
-                x.setWrapStyleWord(true); x.setLineWrap(true);
-                x.setBounds(10, 50, 200, 200); x.setOpaque(false);
-                x.setEditable(false);x.setFocusable(false);
+                x.setWrapStyleWord(true);
+                x.setLineWrap(true);
+                x.setBounds(10, 50, 200, 200);
+                x.setOpaque(false);
+                x.setEditable(false);
+                x.setFocusable(false);
                 x.setBackground(UIManager.getColor("Label.background")); //
                 x.setFont(UIManager.getFont("Label.font"));
                 x.setBorder(UIManager.getBorder("Label.border"));
@@ -174,22 +176,21 @@ public class TempFrame_UI extends JFrame implements ActionListener {
                 show.add(x);
                 show.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 show.setVisible(true);
-        	}
+            }
         }
-        
+
         if (e.getSource() == b2) { // tsp
-        	if(!tf.getText().contains(",")|| !validate(tf.getText().split(","))) {
-        		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	l.setText("<html>Invalid Input. Enter: key1,key2...</html>");
-            	setVisible(true);
-        	}
-        	else {
-        		List<NodeData> cities = new LinkedList<NodeData>();
-            	for (int i = 0; i < tf.getText().split(",").length; i++) {
-            		int key = Integer.parseInt(tf.getText().split(",")[i]);
-    				cities.add(frame.getAlgo().getGraph().getNode(key));
-    			}
+            if (!tf.getText().contains(",") || !validate(tf.getText().split(","))) {
+                setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                l.setText("<html>Invalid Input. Enter: key1,key2...</html>");
+                setVisible(true);
+            } else {
+                List<NodeData> cities = new LinkedList<NodeData>();
+                for (int i = 0; i < tf.getText().split(",").length; i++) {
+                    int key = Integer.parseInt(tf.getText().split(",")[i]);
+                    cities.add(frame.getAlgo().getGraph().getNode(key));
+                }
                 path = "";
                 List<NodeData> list = frame.getAlgo().tsp(cities);
                 for (int i = 0; i < list.size(); i++) {
@@ -201,9 +202,12 @@ public class TempFrame_UI extends JFrame implements ActionListener {
                 JFrame show = new TempFrame_UI(frame);
                 JTextArea x = new JTextArea(path);
                 // code from https://stackoverflow.com/questions/26420428/how-to-word-wrap-text-in-jlabel
-                x.setWrapStyleWord(true); x.setLineWrap(true);
-                x.setBounds(10, 50, 200, 200); x.setOpaque(false);
-                x.setEditable(false);x.setFocusable(false);
+                x.setWrapStyleWord(true);
+                x.setLineWrap(true);
+                x.setBounds(10, 50, 200, 200);
+                x.setOpaque(false);
+                x.setEditable(false);
+                x.setFocusable(false);
                 x.setBackground(UIManager.getColor("Label.background")); //
                 x.setFont(UIManager.getFont("Label.font"));
                 x.setBorder(UIManager.getBorder("Label.border"));
@@ -211,120 +215,100 @@ public class TempFrame_UI extends JFrame implements ActionListener {
                 show.add(x);
                 show.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 show.setVisible(true);
-        	}
+            }
         }
-        
-        if(e.getSource()==b3) { // add node
-        	if(!tf.getText().contains(",") || tf.getText().split(",").length!=3 || !validate(tf.getText().split(","))) {
-        		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	l.setText("<html>Invalid Input. Enter: id,x,y</html>");
-            	setVisible(true);
-        	}
-        	else {
-        		int id = Integer.parseInt(tf.getText().split(",")[0]);
-            	double x = Double.parseDouble(tf.getText().split(",")[1]);
-            	double y = Double.parseDouble(tf.getText().split(",")[2]);
-            	NodeData node = new Node(id, new GeoPoint(x, y,0));
-            	DirectedWeightedGraph g = frame.getAlgo().copy();
-            	g.addNode(node);
-            	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
-            	a.init(g);
-            	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	Graph_UI test = new Graph_UI(a);
-            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
-        	}
+
+        if (e.getSource() == b3) { // add node
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+//            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
-        
-        if(e.getSource()==b4) { // add edge
-        	if(!tf.getText().contains(",") || tf.getText().split(",").length!=3 || !validate(tf.getText().split(","))) {
-        		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	l.setText("<html>Invalid Input. Enter: src,dest,weight</html>");
-            	setVisible(true);
-        	}
-        	else {
-        		int src = Integer.parseInt(tf.getText().split(",")[0]);
-            	int dst = Integer.parseInt(tf.getText().split(",")[1]);
-            	double weight = Double.parseDouble(tf.getText().split(",")[2]);
-            	Graph g = (Graph)frame.getAlgo().copy();
-            	g.connect(src,dst,weight);
-            	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
-            	a.init(g);
-            	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	Graph_UI test = new Graph_UI(a);
-            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
-        	}
+
+        if (e.getSource() == b4) { // add edge
+            if (!tf.getText().contains(",") || tf.getText().split(",").length != 3 || !validate(tf.getText().split(","))) {
+                setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                l.setText("<html>Invalid Input. Enter: src,dest,weight</html>");
+                setVisible(true);
+            } else {
+                int src = Integer.parseInt(tf.getText().split(",")[0]);
+                int dst = Integer.parseInt(tf.getText().split(",")[1]);
+                double weight = Double.parseDouble(tf.getText().split(",")[2]);
+                Graph g = (Graph) frame.getAlgo().copy();
+                g.connect(src, dst, weight);
+                DirectedWeightedGraphAlgorithms a = new GraphAlgo();
+                a.init(g);
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                Graph_UI test = new Graph_UI(a);
+                test.resetFrame((int) frameSize.getWidth(), (int) frameSize.getHeight());
+            }
         }
-        
-        if(e.getSource()==b5) { // remove node
-        	if(!validate(tf.getText())) {
-        		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	l.setText("<html>Invalid Input. Enter: id</html>");
-            	setVisible(true);
-        	}
-        	else {
-        		int id = Integer.parseInt(tf.getText().split(",")[0]);
-            	DirectedWeightedGraph g = frame.getAlgo().copy();
-            	g.removeNode(id);
-            	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
-            	a.init(g);
-            	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	Graph_UI test = new Graph_UI(a);
-            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
-        	}
+
+        if (e.getSource() == b5) { // remove node
+            if (!validate(tf.getText())) {
+                setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                l.setText("<html>Invalid Input. Enter: id</html>");
+                setVisible(true);
+            } else {
+                int id = Integer.parseInt(tf.getText().split(",")[0]);
+                DirectedWeightedGraph g = frame.getAlgo().copy();
+                g.removeNode(id);
+                DirectedWeightedGraphAlgorithms a = new GraphAlgo();
+                a.init(g);
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                Graph_UI test = new Graph_UI(a);
+                test.resetFrame((int) frameSize.getWidth(), (int) frameSize.getHeight());
+            }
         }
-        
-        if(e.getSource()==b6) { // remove edge
-        	if(!tf.getText().contains(",") || tf.getText().split(",").length!=2 || !validate(tf.getText().split(","))) {
-        		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	l.setText("<html>Invalid Input. Enter: src,dest</html>");
-            	setVisible(true);
-        	}
-        	else {
-        		int src = Integer.parseInt(tf.getText().split(",")[0]);
-            	int dst = Integer.parseInt(tf.getText().split(",")[1]);
-            	Graph g = (Graph)frame.getAlgo().copy();
-            	g.removeEdge(src,dst);
-            	DirectedWeightedGraphAlgorithms a = new GraphAlgo();
-            	a.init(g);
-            	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-            	Graph_UI test = new Graph_UI(a);
-            	test.resetFrame((int)frameSize.getWidth(), (int)frameSize.getHeight());
+
+        if (e.getSource() == b6) { // remove edge
+            if (!tf.getText().contains(",") || tf.getText().split(",").length != 2 || !validate(tf.getText().split(","))) {
+                setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                l.setText("<html>Invalid Input. Enter: src,dest</html>");
+                setVisible(true);
+            } else {
+                int src = Integer.parseInt(tf.getText().split(",")[0]);
+                int dst = Integer.parseInt(tf.getText().split(",")[1]);
+                Graph g = (Graph) frame.getAlgo().copy();
+                g.removeEdge(src, dst);
+                DirectedWeightedGraphAlgorithms a = new GraphAlgo();
+                a.init(g);
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                Graph_UI test = new Graph_UI(a);
+                test.resetFrame((int) frameSize.getWidth(), (int) frameSize.getHeight());
             }
         }
     }
-    
+
     public boolean validate(String[] str) {
-    	for (int i = 0; i < str.length; i++) {
-    		try {
-    		        double d = Double.parseDouble(str[i]);
-    		} catch (NumberFormatException nfe) {
-    		        return false;
-    		}
-		}
-    	return true;
+        for (int i = 0; i < str.length; i++) {
+            try {
+                double d = Double.parseDouble(str[i]);
+            } catch (NumberFormatException nfe) {
+                return false;
+            }
+        }
+        return true;
     }
+
     public boolean validate(String str) {
-    		try {
-    		        double d = Double.parseDouble(str);
-    		} catch (NumberFormatException nfe) {
-    		        return false;
-    		}
-    	return true;
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
