@@ -23,7 +23,8 @@ it also supports saving and loading graphs from and to json files
 2. [technologies](#Technologies)
 3. [functionalities](#Functionalities)
 4. [sources](#Sources)
-5. [UML](#UML-image)
+5. [runtimes](#Runtimes)
+6. [UML](#UML-image)
 
 # Getting started
 
@@ -86,23 +87,26 @@ you can also add and remove vertices and edges simply with the GUI
   (the "data" and "saved_graphs" directories are the main directories to search for graphs)
 
 # Sources
+
 * **Djikstra's algorithm**: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 * **Bellman-ford algorithm**: https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm
 * **Topological sort**: https://en.wikipedia.org/wiki/Topological_sorting
 * **BFS**: https://en.wikipedia.org/wiki/Breadth-first_search
 
-# Runtimes  
-The graphs that were tested in this test case are: 
-* G1.json 
-* G2.json 
-* G3.json 
+# Runtimes
+
+The graphs that were tested in this test case are:
+
+* G1.json
+* G2.json
+* G3.json
 * CustomGraph.json (variation of G1)
 * 1,000Nodes.json (custom graph, could not upload to this repo because it was too big)
-* 10,000Nodes.json (custom graph, could not upload to this repo because it was too big)  
-  
+* 10,000Nodes.json (custom graph, could not upload to this repo because it was too big)
+
 All graphs were tested at once. Runtime results are for the given graphs in the same order  
 Each test was executed immediately after the previous test was done.  
-**Results:**  
+**Results:**
 <p align="center">
 <img src="https://user-images.githubusercontent.com/77681248/145725865-b31c6f95-3b7e-405e-8e3f-6bbaba471fa0.jpg">
 </p>  
