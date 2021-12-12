@@ -19,6 +19,8 @@ public class Edges_UI extends JComponent {
     private double Xmin = Nodes_UI.Xmin;
     private double Ymin = Nodes_UI.Ymin;
 
+    private boolean flag = false;
+
     public Edges_UI(DirectedWeightedGraphAlgorithms algo, Graph_UI graph_ui) {
         this.algo = algo;
         graph = algo.getGraph();
@@ -57,7 +59,22 @@ public class Edges_UI extends JComponent {
 
             Line2D.Double line = new Line2D.Double(x1, y1, x2, y2);
             String weightStr = String.format("%.3f", edge.getWeight());
-            g2d.drawString(weightStr, (int) (x1 + x2) / 2, (int) (y1 + y2) / 2);
+
+            double slope = (y2 - y1) / (x2 - x1);
+            double intercept = y1 - x1 * slope;
+
+            double newX;
+            if (y2 < y1) {
+                newX = Math.abs(x1 - x2) / 4 + Math.min(x1, x2);
+            } else {
+                newX = 3 * Math.abs(x1 - x2) / 4 + Math.min(x1, x2);
+            }
+
+            double newY = newX * slope + intercept;
+
+//            g2d.drawString(weightStr, (int) ((x1 + x2) / 2), (int) ((y1 + y2) / 2));
+            g2d.drawString(weightStr, (int) newX, (int) newY);
+
 
             int h = 7, d = 15; // h = height of arrow, d = width of arrow
             // code from https://stackoverflow.com/questions/2027613/how-to-draw-a-directed-arrow-line-in-java
