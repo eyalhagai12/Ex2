@@ -50,8 +50,8 @@ public class Edges_UI extends JComponent {
             double y1 = graph.getNode(edge.getSrc()).getLocation().y() - Ymin;
             double y2 = graph.getNode(edge.getDest()).getLocation().y() - Ymin;
 
-            x1 = (int) ((x1 / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH) + 7;
-            x2 = (int) ((x2 / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH) + 7;
+            x1 = (int) ((x1 / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH) + 8;
+            x2 = (int) ((x2 / (Xmax - Xmin)) * WIDTH * 0.8) + (int) (0.08 * WIDTH) + 8;
             y1 = (int) ((y1 / (Ymax - Ymin)) * HEIGHT * 0.8) + 15;
             y2 = (int) ((y2 / (Ymax - Ymin)) * HEIGHT * 0.8) + 15;
 

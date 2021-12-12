@@ -19,17 +19,15 @@ public class Menu_UI implements ActionListener, MouseListener {
     JMenuBar mb;
     JMenu file, edit, nodes, edges, operations;
     JMenuItem f1, f2, e1, e2, e3, e4, o1, o2, o3, o4, o5;
-    JLabel addNodeText;
 
     private DirectedWeightedGraphAlgorithms algo;
     private Graph_UI frame;
-    public boolean addNode;
+    private boolean addNode;
 
     public Menu_UI(Graph_UI g) {
         frame = g;
         algo = g.getAlgo();
         addNode = false;
-        addNodeText = new JLabel();
 
         mb = new JMenuBar();
         file = new JMenu("File");
@@ -81,7 +79,6 @@ public class Menu_UI implements ActionListener, MouseListener {
         mb.add(file);
         mb.add(edit);
         mb.add(operations);
-        mb.add(addNodeText);
     }
 
     public JMenuBar getMenuBar() {
@@ -115,22 +112,28 @@ public class Menu_UI implements ActionListener, MouseListener {
 
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToLoad = fileChooser.getSelectedFile();
-                frame.getAlgo().load(fileToLoad.getAbsolutePath());
                 System.out.println("Load file: " + fileToLoad.getAbsolutePath());
 
                 DirectedWeightedGraphAlgorithms a = frame.getAlgo();
+                a.load(fileToLoad.getAbsolutePath());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                new Graph_UI(a);
+                frame = new Graph_UI(a);
+                frame.setVisible(true);
             }
         }
 
 
         if (source == e1) { // add node
             addNode = true;
-            temp.setTitle("Add node");
-            temp.addNode();
-            temp.setVisible(true);
+
+            if (!Graph_UI.messageShown) {
+                temp.setTitle("Add node");
+                temp.addNode();
+                temp.setVisible(true);
+                Graph_UI.messageShown = true;
+            }
+
         }
 
 
@@ -219,9 +222,9 @@ public class Menu_UI implements ActionListener, MouseListener {
             Node newNode = new Node(id, newNodePoint);
             graph.addNode(newNode);
             frame.dispose();
-            Graph_UI test = new Graph_UI(algo);
-            test.resetFrame((int) frameSize.getWidth(), (int) frameSize.getHeight());
-            frame = test;
+            Graph_UI newFrame = new Graph_UI(algo);
+            newFrame.resetFrame((int) frameSize.getWidth(), (int) frameSize.getHeight());
+            frame = newFrame;
             addNode = false;
         }
     }

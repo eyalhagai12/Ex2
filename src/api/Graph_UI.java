@@ -25,6 +25,7 @@ public class Graph_UI extends JFrame {
     public static int nodeCounter = 0;
     public static int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
     public static int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
+    public static boolean messageShown = false;
 
     public Graph_UI(DirectedWeightedGraphAlgorithms algo) {
         this.setTitle("GUI");
@@ -74,14 +75,5 @@ public class Graph_UI extends JFrame {
     		setExtendedState(JFrame.MAXIMIZED_BOTH);
     	}
     	setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        Graph g = new Graph("data/G1.json");
-        GraphAlgo algo = new GraphAlgo();
-        algo.init(g);
-
-        Graph_UI test = new Graph_UI(algo);
-        test.setVisible(true);
     }
 }
