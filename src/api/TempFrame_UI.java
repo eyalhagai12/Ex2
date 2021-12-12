@@ -109,8 +109,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
         tf = new JTextField();
         tf.setBounds(105, 80, 100, 20);
 
-        b5 = new JButton("Remove edge");
-        b5.setBounds(100, 110, 110, 30);
+        b5 = new JButton("Remove node");
+        b5.setBounds(80, 110, 150, 30);
 
         l = new JLabel("<html>Enter node's id that you want to delete:</html>");
         l.setBounds(10, 25, 300, 45);
@@ -126,8 +126,8 @@ public class TempFrame_UI extends JFrame implements ActionListener {
         tf = new JTextField();
         tf.setBounds(105, 80, 100, 20);
 
-        b6 = new JButton("Remove");
-        b6.setBounds(100, 110, 110, 30);
+        b6 = new JButton("Remove edge");
+        b6.setBounds(80, 110, 150, 30);
 
         l = new JLabel("<html>Enter edge's source and destination</br> to delete:</html>");
         l.setBounds(10, 25, 300, 45);

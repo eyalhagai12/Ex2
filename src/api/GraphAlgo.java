@@ -150,6 +150,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean load(String file) {
+        Graph_UI.flag = true;
         graph = new Graph(file);
         return graph != null;
     }

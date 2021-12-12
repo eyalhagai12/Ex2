@@ -21,7 +21,7 @@ public class Graph_UI extends JFrame {
     private final Edges_UI edges_ui;
     private Menu_UI menu;
 
-    private static boolean flag = true;
+    public static boolean flag = true;
     public static int nodeCounter = 0;
     public static int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
     public static int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);

@@ -81,10 +81,7 @@ you can also add and remove vertices and edges simply with the GUI
 ### saving and loading graphs
 
 * **saving**: To save a file go to File -> Save, then choose where to save your graph (graphs are saved in json format)
-* **loading**: To load a graph you can do two things. the first is to type the entire path of that file. the second way
-  is to put the graph's json file in the "data" or the "saved_graphs" directories and then simply write only it's name
-  with json extension.
-  (the "data" and "saved_graphs" directories are the main directories to search for graphs)
+* **loading**: To load a graph go to File -> load, then go to the directory of that json file and choose the wanted file
 
 # Sources
 
